@@ -1,0 +1,8 @@
+MAS search {
+
+    agents:
+		navigator;
+        //numbers;
+        //waterjug;
+        //missionaries;
+}
