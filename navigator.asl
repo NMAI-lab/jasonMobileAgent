@@ -36,19 +36,6 @@ suc([X1,Y1],[X2,Y2],1,down) :- ([X2,Y2] = [X1,Y1-1]) & possible([X1,Y1],[X2,Y2])
 suc([X1,Y1],[X2,Y2],1,left) :- ([X2,Y2] = [X1-1,Y1]) & possible([X1,Y1],[X2,Y2]).
 suc([X1,Y1],[X2,Y2],1,right) :- ([X2,Y2] = [X1+1,Y1]) & possible([X1,Y1],[X2,Y2]).
 
-// Instead of coding the bad locations that the agent can't visit, instead we should
-// encode the locations it can visit, as is more typical of a map.
-
-// Define the bad squares
-//ok([X,Y]) :- (not bad([X,Y])) & onMap([X,Y]).
-
-//bad([X,Y]) :- 	[X,Y] = [1,1] |
-//				[X,Y] = [1,2] |
-//				[X,Y] = [2,0] |
-//				[X,Y] = [3,3].
-			
-//onMap([X,Y]) :- X <= 3 & X >= 0 & Y <= 3 & Y >= 0.
-
 // Map of locations that the agent can visit.
 { include("map.asl") }
 
