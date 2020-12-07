@@ -2,3 +2,9 @@
 *.mas2j~
 
 *.asl~
+
+*.class
+
+bin/build.xml
+
+*.java~

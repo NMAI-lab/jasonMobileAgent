@@ -7,24 +7,24 @@
  * The map has accessible and inaccessible squares. A visual view of the map is
  * below. The inaccessible square have an X. (start without that)
  *
- * |-------------------------------|
- * |   m   |   n   |   o   |   p   |
- * |       |       |       |   X   |
- * | [0,3] | [1,3] | [2,3] | [3,3] |
- * |-------------------------------|
- * |   i   |   j   |   k   |   l   |
- * |       |   X   |       |       |
- * | [0,2] | [1,2] | [2,2] | [3,2] |
- * |-------------------------------|
- * |   e   |   f   |   g   |   h   |
-   |       |   X   |       |       |
- * | [0,1] | [1,1] | [2,1] | [3,1] |
- * |-------------------------------|
- * |   a   |   b   |   c   |   d   |
- * |       |       |   X   |       |
- * | [0,0] | [1,0] | [2,0] | [3,0] |
- * |-------------------------------|
- */
+* |-------------------------------|
+* |   m   |   n   |   o   |   p   |
+* |       |       |       |   X   |
+* | [0,0] | [1,0] | [2,0] | [3,0] |
+* |-------------------------------|
+* |   i   |   j   |   k   |   l   |
+* |       |   X   |       |       |
+* | [0,1] | [1,1] | [2,1] | [3,1] |
+* |-------------------------------|
+* |   e   |   f   |   g   |   h   |
+* |       |   X   |       |       |
+* | [0,2] | [1,2] | [2,2] | [3,2] |
+* |-------------------------------|
+* |   a   |   b   |   c   |   d   |
+* |       |       |   X   |       |
+* | [0,3] | [1,3] | [2,3] | [3,3] |
+* |-------------------------------|
+*/
 
 locationName(a,[0,0]).
 locationName(b,[1,0]).
@@ -42,45 +42,39 @@ locationName(m,[0,3]).
 locationName(n,[1,3]).
 locationName(o,[2,3]).
 locationName(p,[3,3]).
-
  
-// Possible map transitions. This is a map data structure.
+// Possible map transitions.
 // possible(StartingPosition, PossibleNewPosition)
-possible([0,0],[1,0]).
-possible([0,0],[0,1]).
+possible(a,b).
+possible(a,e).
 
-possible([1,0],[0,0]).
+possible(b,a).
 
-possible([3,0],[3,1]).
+possible(d,h).
 
-possible([0,1],[0,0]).
-possible([0,1],[0,2]).
+possible(e,a).
+possible(e,i).
 
-possible([2,1],[3,1]).
-possible([2,1],[2,2]).
+possible(g,h).
+possible(h,d).
+possible(h,l).
 
-possible([3,1],[3,0]).
-possible([3,1],[2,1]).
-possible([3,1],[3,2]).
+possible(i,e).
+possible(i,m).
 
-possible([0,2],[0,1]).
-possible([0,2],[0,3]).
+possible(k,g).
+possible(k,l).
+possible(k,o).
 
-possible([2,2],[3,2]).
-possible([2,2],[2,1]).
-possible([2,2],[2,3]).
+possible(l,k).
+possible(l,h).
 
-possible([3,2],[3,1]).
-possible([3,2],[2,2]).
-possible([3,2],[3,3]).
+possible(m,i).
+possible(m,n).
 
-possible([0,3],[0,2]).
-possible([0,3],[1,3]).
+possible(n,m).
+possible(n,o).
 
-possible([1,3],[0,3]).
-possible([1,3],[2,3]).
-
-possible([2,3],[1,3]).
-possible([2,3],[2,2]).
-
+possible(o,n).
+possible(o,k).
 
