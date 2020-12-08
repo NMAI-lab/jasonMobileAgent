@@ -58,11 +58,13 @@ public class NavigatorGridWorld extends Environment {
         return true;
     }
 
-    /** creates the agents perception based on the MarsModel */
+    /** creates the agents perception based on the model */
     void updatePercepts() {
         clearPercepts();
 		
 		List<String> perceptionStrings = model.perceive();
+		System.out.println("!!!!!! PERCEIVE !!!!!");
+		System.out.println(perceptionStrings.toString());
 		Iterator<String> perceptionIterator = perceptionStrings.iterator();
         while (perceptionIterator.hasNext()) {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());
