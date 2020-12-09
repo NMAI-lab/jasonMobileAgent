@@ -1,6 +1,6 @@
 // Demo program of Jason based navigation using A*
 
-!navigate(a,d).
+!navigate(d).
 
 /*
 +!navigate
@@ -15,17 +15,17 @@
 */
 
 // Get the route plan
-+!navigate(Start,Finish)
-	//:	//position([X,Y]) & locationName(Current,[X,Y]) &
-		//not haveSolution(Solution)
-	<-	?a_star(Start,Finish,Solution,Cost);
-		//+haveSolution(Solution);
++!navigate(Destination)
+	:	position(X,Y) & locationName(Current,[X,Y]) &
+		not haveSolution(Solution)
+	<-	?a_star(Current,Destination,Solution,Cost);
+		+haveSolution(Solution);
 		//move(right);
-		//for (.member( op(O,S), Solution)) {
-		//	.print("   ",S," <-< ",O);
-		//}
+		for (.member( op(O,S), Solution)) {
+			.print("   ",S," <-< ",O);
+		}
 		//.queue.remove(Solution,op(initial,_));
-		!navigate(Start,Finish);
+		//!navigate(Destination);
 		.
 /*
 // Queue has content, remove initial
@@ -50,11 +50,11 @@
 		.queue.remove(Solution, Next);
 		move(Direction);
 		!navigate.	
-		
-+!navigate(Start,Finish) 
+*/		
++!navigate(Destination) 
 	<-	.print("default plan");
-		!navigate(Start,Finish).
-		
+		!navigate(Destination).
+/*	
 //+!navigate
 //	:	start(Start) &
 //		finish(Finish) &
