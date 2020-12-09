@@ -17,26 +17,50 @@
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
-	<-	.print("Made it to the destination!").
+	<-	.print("Made it to the destination!");
+		-destinaton(Destination).
 
 // We don't have a route plan, get one and set the waypoints.
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y])
-	<-	?a_star(Current,Destination,Solution,Cost);
+	<-	+destination(Destination);
+		?a_star(Current,Destination,Solution,Cost);
 //		.print(Solution);
 		for (.member( op(Direction,NextPosition), Solution)) {
-			!waypoint(Direction);
+			!waypoint(Direction,NextPosition);
 		}
 		!navigate(Destination).
-
 	
 // Move through the map, if possible.
-+!waypoint(Direction)
-	:	isDirection(Direction)
++!waypoint(Direction,_)
+	:	isDirection(Direction) &
+		map(Direction) &
+		not obstacle(Direction)
 	<-	move(Direction).
+	
+// Move through the map, if possible.
++!waypoint(Direction, Next)
+	:	isDirection(Direction) &
+		map(Direction) &
+		obstacle(Direction)
+	<-	!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(Direction).
++!waypoint(_,_).
+
++!updateMap(Direction, NextName)
+	:	position(X,Y) &
+		locationName(PositionName, [X,Y]) &
+		possible(PositionName,NextName) &
+		destination(Destination)
+	<-	-possible(PositionName,NextName)
+		.print("Did map update ", Direction, " ", NextName);
+		.drop_all_intentions;
+		!navigate(Destination).
+	
++!updateMap(Direction,NextName)
+	<-	.print("Map update default ",Direction, " ", NextName);
+		!updateMap(Direction,NextName).
 		
 
 // Check that Direction is infact a direction
