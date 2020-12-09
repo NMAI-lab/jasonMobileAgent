@@ -78,3 +78,8 @@ possible(n,o).
 possible(o,n).
 possible(o,k).
 
+
+// Mess with the map, tell that C is a possible place to go
+possible(b,c).
+possible(c,d).
+
