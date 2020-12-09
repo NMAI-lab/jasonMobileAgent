@@ -23,85 +23,20 @@
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y])
 	<-	?a_star(Current,Destination,Solution,Cost);
-		.delete(op(initial,_),Solution,Result);		// Delete the initial position from the list
-		.print(Solution);
-		for (.member( op(Direction,NextPosition), Result)) {
+//		.print(Solution);
+		for (.member( op(Direction,NextPosition), Solution)) {
 			!waypoint(Direction);
 		}
 		!navigate(Destination).
 
-		
+	
+// Move through the map, if possible.
 +!waypoint(Direction)
-	:	not (Direction = initial)
+	:	isDirection(Direction)
 	<-	move(Direction).
 
-+!waypoint
-	: 	Direction = initial
-	<-	.print("Skip initial").
-		
-/*		
-// Need to move
-+!navigate(Destination)
-	:	position(X,Y) & locationName(Current,[X,Y]) &
-		haveSolution(Solution) &
-		.member( op(Direction,Current), Solution)
-	<-	move(Direction);
-		.print("move! ", Direction);
-		!navigate(Destination).
-		
-// Default plan - stragne things happening here.
-+!navigate(Destination) 
-	<-	.print("default plan");
-		!navigate(Destination).
-		
-/*
-// Queue has content, remove initial
-+!navigate(Start,Finish)
-	:	haveSolution(Solution) &
-		.length(Solution, Length) &
-		Length > 0 &
-		.member(Next,Solution) &
-		Next = op(initial,_)
-	<-	.print("Length of the solution is: ", Length);
-		.queue.remove(Solution, Next);
-		!navigate.
-		
-// Queue has content, no initial
-+!navigate(Start,Finish)
-	:	haveSolution(Solution) &
-		.length(Solution, Length) &
-		Length > 0 &
-		.member(Solution, Next) &
-		Next = op(Direction,_)
-	<-	.print("Length of the solution is: ", Length);
-		.queue.remove(Solution, Next);
-		move(Direction);
-		!navigate.	
-*/		
-
-
-/*	
-//+!navigate
-//	:	start(Start) &
-//		finish(Finish) &
-//		haveSolution(Solution) &
-//		.member(Next,Solution) & 
-//		 Next = op(Direction,Cost) &
-//		not (Direction = initial)
-//	<-	.print("It is a direction: ", Direction);
-//		for (.member( op(O,S), Solution)) {
-//			.print("   ",S," <-< ",O);
-//		}.
-		
-//+!navigate
-//	:	start(Start) &
-//		finish(Finish) &
-//		haveSolution(Solution) &
-//		.member(Next,Solution) & 
-//		Next = op(Direction,Cost)
-//	<-	.print("Here first");
-//		move(Direction);
-//		!navigate.
+// Deal with case where Direction is not a valid way to go.
++!waypoint(Direction).
 		
 
 // Check that Direction is infact a direction
