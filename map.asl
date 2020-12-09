@@ -26,22 +26,22 @@
 * |-------------------------------|
 */
 
-locationName(a,[0,0]).
-locationName(b,[1,0]).
-locationName(c,[2,0]).
-locationName(d,[3,0]).
-locationName(e,[0,1]).
-locationName(f,[1,1]).
-locationName(g,[2,1]).
-locationName(h,[3,1]).
-locationName(i,[0,2]).
-locationName(j,[1,2]).
-locationName(k,[2,2]).
-locationName(l,[3,2]).
-locationName(m,[0,3]).
-locationName(n,[1,3]).
-locationName(o,[2,3]).
-locationName(p,[3,3]).
+locationName(a,[0,3]).
+locationName(b,[1,3]).
+locationName(c,[2,3]).
+locationName(d,[3,3]).
+locationName(e,[0,2]).
+locationName(f,[1,2]).
+locationName(g,[2,2]).
+locationName(h,[3,2]).
+locationName(i,[0,1]).
+locationName(j,[1,1]).
+locationName(k,[2,1]).
+locationName(l,[3,1]).
+locationName(m,[0,0]).
+locationName(n,[1,0]).
+locationName(o,[2,0]).
+locationName(p,[3,0]).
  
 // Possible map transitions.
 // possible(StartingPosition, PossibleNewPosition)

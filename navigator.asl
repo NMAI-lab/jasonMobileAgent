@@ -14,19 +14,46 @@
 		.
 */
 
-// Get the route plan
+// Case where we are already at the destination
++!navigate(Destination)
+	:	position(X,Y) & locationName(Destination,[X,Y])
+	<-	.print("Made it to the destination!").
+
+// We don't have a route plan, get one and set the waypoints.
++!navigate(Destination)
+	:	position(X,Y) & locationName(Current,[X,Y])
+	<-	?a_star(Current,Destination,Solution,Cost);
+		.delete(op(initial,_),Solution,Result);		// Delete the initial position from the list
+		.print(Solution);
+		for (.member( op(Direction,NextPosition), Result)) {
+			!waypoint(Direction);
+		}
+		!navigate(Destination).
+
+		
++!waypoint(Direction)
+	:	not (Direction = initial)
+	<-	move(Direction).
+
++!waypoint
+	: 	Direction = initial
+	<-	.print("Skip initial").
+		
+/*		
+// Need to move
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y]) &
-		not haveSolution(Solution)
-	<-	?a_star(Current,Destination,Solution,Cost);
-		+haveSolution(Solution);
-		//move(right);
-		for (.member( op(O,S), Solution)) {
-			.print("   ",S," <-< ",O);
-		}
-		//.queue.remove(Solution,op(initial,_));
-		//!navigate(Destination);
-		.
+		haveSolution(Solution) &
+		.member( op(Direction,Current), Solution)
+	<-	move(Direction);
+		.print("move! ", Direction);
+		!navigate(Destination).
+		
+// Default plan - stragne things happening here.
++!navigate(Destination) 
+	<-	.print("default plan");
+		!navigate(Destination).
+		
 /*
 // Queue has content, remove initial
 +!navigate(Start,Finish)
@@ -51,9 +78,8 @@
 		move(Direction);
 		!navigate.	
 */		
-+!navigate(Destination) 
-	<-	.print("default plan");
-		!navigate(Destination).
+
+
 /*	
 //+!navigate
 //	:	start(Start) &
@@ -88,8 +114,8 @@ isDirection(Direction) :- (Direction = up) |
 /* The following two rules are domain dependent and have to be redefined accordingly */
 
 // sucessor definition: suc(CurrentState,NewState,Cost,Operation)
-suc(Current,Next,1,up) :- ([X2,Y2] = [X1,Y1+1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
-suc(Current,Next,1,down) :- ([X2,Y2] = [X1,Y1-1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
+suc(Current,Next,1,up) :- ([X2,Y2] = [X1,Y1-1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
+suc(Current,Next,1,down) :- ([X2,Y2] = [X1,Y1+1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
 suc(Current,Next,1,left) :- ([X2,Y2] = [X1-1,Y1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
 suc(Current,Next,1,right) :- ([X2,Y2] = [X1+1,Y1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
 
