@@ -2,9 +2,10 @@ MAS search {
 
     infrastructure: Centralised
 
-    environment: NavigatorGridWorld
+    //environment: NavigatorGridWorld
 
     agents:
-		navigator;
+		//navigator;
+		navigatorEnvAssist;
 }
 
