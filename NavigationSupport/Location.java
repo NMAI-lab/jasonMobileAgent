@@ -1,4 +1,4 @@
-package com.company;
+package NavigationSupport;
 
 public class Location {
     private double x;

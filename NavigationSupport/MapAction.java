@@ -1,4 +1,4 @@
-package com.company;
+package NavigationSupport;
 
 import aima.core.agent.impl.DynamicAction;
 

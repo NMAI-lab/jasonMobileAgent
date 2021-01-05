@@ -1,4 +1,4 @@
-package com.company;
+package NavigationSupport;
 
 import java.io.File;
 import java.io.FileNotFoundException;

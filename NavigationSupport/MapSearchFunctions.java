@@ -1,4 +1,4 @@
-package com.company;
+package NavigationSupport;
 
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
@@ -10,6 +10,15 @@ import java.util.*;
 
 public class MapSearchFunctions {
 
+    public static String getNavigationPath(String action) {
+        int bracketOpen = action.indexOf("(");
+        int bracketClose = action.indexOf(")");
+        int comma = action.indexOf(",");
+        String start = action.substring(bracketOpen + 1, comma );
+        String finish = action.substring(comma + 1, bracketClose);
+        return "path(" + getNavigationPath(start, finish) + ")";
+    }
+	
     public static String getNavigationPath(String start, String finish) {
         String path = "D:\\Local Documents\\ROS_Workspaces\\RoombaWorkspaces\\src\\jason_mobile_agent_ros\\asl\\map.asl";
         Problem<NavigationState, MapAction> problem = MapSearchFunctions.createProblem(start,finish,path);
