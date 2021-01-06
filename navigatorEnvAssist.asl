@@ -3,12 +3,19 @@
 !navigate(d).
 
 +path(Path)
+	:	startTime(StartTime)
 	<-	// Print the results
-		.print("solution A* =", Solution, " with cost ",Cost," in ", (system.time - InitRule), " ms.").
+		.print("solution A* =", Path, " in ", (system.time - StartTime), " ms.");
+		+done.
 
 +!navigate(Destination)
-	<-	InitRule = system.time;		// Get initial time stamp, for benchmarking performance
-		getPath(a,Destination).
+	: 	(not done)
+	<-	+startTime(system.time);		// Get initial time stamp, for benchmarking performance
+		getPath(a,Destination);
+		!navigate(Destination).
+
++!navigate(_) <- .print("Done").
+
 /*
 
 // Case where we are already at the destination

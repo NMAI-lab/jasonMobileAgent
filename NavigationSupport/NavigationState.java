@@ -1,4 +1,4 @@
-package com.company;
+package NavigationSupport;
 
 import java.util.List;
 

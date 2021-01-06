@@ -7,5 +7,7 @@ MAS search {
     agents:
 		//navigator;
 		navigatorEnvAssist;
+		
+	
 }
 

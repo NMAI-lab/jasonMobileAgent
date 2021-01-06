@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.*;
 import java.util.logging.Logger;
+import NavigationSupport.*;
 
 public class NavigatorGridWorld extends Environment {
 
@@ -47,7 +48,7 @@ public class NavigatorGridWorld extends Environment {
             } else {
 				String actionString = action.toString();
 				if (actionString.contains("getPath")) {
-					path = NavigationSupport.getNavigationPath(actionString);
+					path = MapSearchFunctions.getNavigationPath(actionString);
 				} else {
 					return false;
 				}
@@ -78,7 +79,8 @@ public class NavigatorGridWorld extends Environment {
 			addPercept(perceptLiteral);
         } 
 		if (path != null) {
-			addPercept(path);
+			Literal pathLiteral = Literal.parseLiteral(path);
+			addPercept(pathLiteral);
 			path = null;
 		}
     }
