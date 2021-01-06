@@ -2,6 +2,8 @@
 
 !navigate(d).
 
+/*
+// Benchmark version
 +path(Path)
 	:	startTime(StartTime)
 	<-	// Print the results
@@ -15,43 +17,60 @@
 		!navigate(Destination).
 
 +!navigate(_) <- .print("Done").
+*/
 
-/*
+// Perception of a path provided by the environment based navigation support
++path(Path)
+	<-	+route(Path).
 
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
 	<-	.print("Made it to the destination!");
-		-destinaton(Destination).
+		-destinaton(Destination);
+		-route(Path).
 
-// We don't have a route plan, get one and set the waypoints.
+// We have a route path, set the waypoints.
++!navigate(Destination)
+	:	route(Path)
+	<-	for (.member(NextPosition, Path)) {
+			!waypoint(NextPosition);
+		}
+		!navigate(Destination).
+		
+// We don't have a route plan, get one.
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y])
 	<-	+destination(Destination);
-		?a_star(Current,Destination,Solution,Cost);
-//		.print(Solution);
-		for (.member( op(Direction,NextPosition), Solution)) {
-			!waypoint(Direction,NextPosition);
-		}
+		getPath(Current,Destination);
 		!navigate(Destination).
+
++!navigate(Destination)
+	<-	!navigate(Destination).
 	
+
 // Move through the map, if possible.
-+!waypoint(Direction,_)
-	:	isDirection(Direction) &
-		map(Direction) &
-		not obstacle(Direction)
++!waypoint(NextPosition)
+	:	position(X,Y) & locationName(Current,[X,Y])
+		& possible(Current,NextPosition)
+		& direction(Current,NextPosition,Direction)
+		& map(Direction)
+		& (not obstacle(Direction))
 	<-	move(Direction).
 	
 // Move through the map, if possible.
-+!waypoint(Direction, Next)
-	:	isDirection(Direction) &
-		map(Direction) &
-		obstacle(Direction)
-	<-	!updateMap(Direction, Next).
+//+!waypoint(NextPosition)
+//	:	isDirection(Direction) &
+//		map(Direction) &
+//		obstacle(Direction)
+//	<-	!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(_,_).
++!waypoint(Next) <- .print("Waypoint default").
 
+
+// Revisit map update later.
+/*
 +!updateMap(Direction, NextName)
 	:	position(X,Y) &
 		locationName(PositionName, [X,Y]) &
@@ -65,31 +84,33 @@
 +!updateMap(Direction,NextName)
 	<-	.print("Map update default ",Direction, " ", NextName);
 		!updateMap(Direction,NextName).
-		
+	
+*/
 
-// Check that Direction is infact a direction
-isDirection(Direction) :- (Direction = up) |
-						  (Direction = down) |
-						  (Direction = left) |
-						  (Direction = right).
-		
-		
-/* The following two rules are domain dependent and have to be redefined accordingly */
+// Get the direction of the next movement
+direction(Current,Next,up)
+	:-	possible(Current,Next)
+		& locationName(Current,[X,Y])
+		& locationName(Next,[X,Y-1]).
 
-// sucessor definition: suc(CurrentState,NewState,Cost,Operation)
-suc(Current,Next,1,up) :- ([X2,Y2] = [X1,Y1-1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
-suc(Current,Next,1,down) :- ([X2,Y2] = [X1,Y1+1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
-suc(Current,Next,1,left) :- ([X2,Y2] = [X1-1,Y1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
-suc(Current,Next,1,right) :- ([X2,Y2] = [X1+1,Y1]) & possible(Current,Next) & nameMatch(Current,[X1,Y1],Next,[X2,Y2]).
-
-nameMatch(Current,CurrentPosition,Next,NextPosition) :- locationName(Current,CurrentPosition) &
-														  locationName(Next,NextPosition).
+// Get the direction of the next movement
+direction(Current,Next,down)
+	:-	possible(Current,Next)
+		& locationName(Current,[X,Y])
+		& locationName(Next,[X,Y+1]).
+		
+// Get the direction of the next movement
+direction(Current,Next,left)
+	:-	possible(Current,Next)
+		& locationName(Current,[X,Y])
+		& locationName(Next,[X-1,Y]).		
+		
+// Get the direction of the next movement
+direction(Current,Next,right)
+	:-	possible(Current,Next)
+		& locationName(Current,[X,Y])
+		& locationName(Next,[X+1,Y]).			
 
 // Map of locations that the agent can visit.
 { include("map.asl") }
 
-// heutistic definition: h(CurrentState,Goal,H)
-h(Current,Goal,H) :- H = math.sqrt( ((X2-X1) * (X2-X1)) + ((Y2-Y1) * (Y2-Y1)) ) &
-						 nameMatch(Current,[X1,Y1],Goal,[X2,Y2]).
-
-{ include("a_star.asl") }
