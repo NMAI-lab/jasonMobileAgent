@@ -19,10 +19,6 @@
 +!navigate(_) <- .print("Done").
 */
 
-// Perception of a path provided by the environment based navigation support
-+path(Path)
-	<-	+route(Path).
-
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
@@ -30,20 +26,15 @@
 		-destinaton(Destination);
 		-route(Path).
 
-// We have a route path, set the waypoints.
+// We are not at the destination, set the waypoints.
 +!navigate(Destination)
-	:	route(Path)
-	<-	for (.member(NextPosition, Path)) {
+	:	position(X,Y) 
+		& locationName(Current,[X,Y])
+	<-	navigationInternalAction.getPath(Current,Destination,Path);
+		for (.member(NextPosition, Path)) {
 			!waypoint(NextPosition);
 		}
-		!navigate(Destination).
-		
-// We don't have a route plan, get one.
-+!navigate(Destination)
-	:	position(X,Y) & locationName(Current,[X,Y])
-	<-	+destination(Destination);
-		getPath(Current,Destination);
-		!navigate(Destination).
+		!navigate(Destination).	
 
 +!navigate(Destination)
 	<-	!navigate(Destination).

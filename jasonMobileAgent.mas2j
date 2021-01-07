@@ -1,4 +1,4 @@
-MAS search {
+MAS jasonMobileAgent {
 
     infrastructure: Centralised
 
@@ -6,9 +6,7 @@ MAS search {
 
     agents:
 		//navigator;
-		navigatorEnvAssist;
+		//navigatorEnvAssist;
 		navigatorInternalAction;
-		
-	
 }
 
