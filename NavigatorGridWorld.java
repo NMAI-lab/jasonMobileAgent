@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.*;
 import java.util.logging.Logger;
+import NavigationSupport.*;
 
 public class NavigatorGridWorld extends Environment {
 
@@ -21,12 +22,14 @@ public class NavigatorGridWorld extends Environment {
 	public static final Term moveRight = Literal.parseLiteral("move(right)");
 	
 	static Logger logger = Logger.getLogger(MarsEnv.class.getName());
+	private String path;
 	
 	@Override
     public void init(String[] args) {
         model = new NavMap();
         view  = new NavMapView(model);
         model.setView(view);
+		path = null;
         updatePercepts();
     }
 
@@ -43,7 +46,12 @@ public class NavigatorGridWorld extends Environment {
 			} else if (action.equals(moveRight)) {
                 model.move("right");
             } else {
-                return false;
+				String actionString = action.toString();
+				if (actionString.contains("getPath")) {
+					path = MapSearchFunctions.getNavigationPath(actionString);
+				} else {
+					return false;
+				}
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,5 +78,10 @@ public class NavigatorGridWorld extends Environment {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());
 			addPercept(perceptLiteral);
         } 
+		if (path != null) {
+			Literal pathLiteral = Literal.parseLiteral(path);
+			addPercept(pathLiteral);
+			path = null;
+		}
     }
 }

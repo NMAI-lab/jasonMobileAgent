@@ -8,3 +8,5 @@
 bin/build.xml
 
 *.java~
+
+.stop___MAS
