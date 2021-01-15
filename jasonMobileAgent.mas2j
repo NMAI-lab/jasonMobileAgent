@@ -6,7 +6,7 @@ MAS jasonMobileAgent {
 
     agents:
 		//navigator;
-		navigatorEnvAssist;
-		//navigatorInternalAction;
+		//navigatorEnvAssist;
+		navigatorInternalAction;
 }
 
