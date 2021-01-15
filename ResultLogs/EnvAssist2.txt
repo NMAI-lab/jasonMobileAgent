@@ -1,0 +1,69 @@
+Launching jasonMobileAgent.mas2j
+Parsing project file...  parsed successfully!
+Executing C:\Program Files\Java\jdk1.8.0_261\bin\java -classpath D:\Local Documents\Utilities\jason-2.6.2\libs\ant-launcher-1.10.5.jar org.apache.tools.ant.launch.Launcher -e -f bin\build.xml run
+Buildfile: D:\Local Documents\Github\jasonMobileAgent\bin\build.xml
+
+init:
+
+user-init:
+
+compile:
+
+run:
+Running project jasonMobileAgent
+!!!!!! PERCEIVE !!!!!
+[position(0,3), obstacle(down), obstacle(left), map(up), map(right)]
+[navigatorEnvAssist] 1 ms navigate(getPath(d))!!!!!! PERCEIVE !!!!!
+
+[position(0,3), obstacle(down), obstacle(left), map(up), map(right)]
+[navigatorEnvAssist] 2 ms navigate(current(a))
+
+[MarsEnv] navigatorEnvAssist doing: getPath(a,d)
+[navigatorEnvAssist] 57 ms route([e,i,m,n,o,k,g,h,d])
+!!!!!! PERCEIVE !!!!![navigatorEnvAssist] 255 ms navigate(route([e,i,m,n,o,k,g,h,d]))
+
+[navigatorEnvAssist] 260 ms waypoint(waypoint(move(up),e))
+
+[position(0,2), obstacle(left), obstacle(right), map(up), map(down), map(right)]
+[MarsEnv] navigatorEnvAssist doing: move(up)
+[navigatorEnvAssist] 472 ms waypoint(waypoint(move(up),i))
+
+[MarsEnv] navigatorEnvAssist doing: move(up)!!!!!! PERCEIVE !!!!!
+
+[position(0,1), obstacle(left), obstacle(right), map(up), map(down), map(right)]
+[navigatorEnvAssist] 689 ms waypoint(waypoint(move(up),m))
+
+[MarsEnv] navigatorEnvAssist doing: move(up)!!!!!! PERCEIVE !!!!!
+
+[position(0,0), obstacle(up), obstacle(left), map(down), map(right)]
+[navigatorEnvAssist] 906 ms waypoint(waypoint(move(right),n))!!!!!! PERCEIVE !!!!!
+[position(1,0), obstacle(up), obstacle(down), map(down), map(left), map(right)]
+
+
+[MarsEnv] navigatorEnvAssist doing: move(right)
+[navigatorEnvAssist] 1119 ms waypoint(waypoint(move(right),o))
+
+[MarsEnv] navigatorEnvAssist doing: move(right)!!!!!! PERCEIVE !!!!!
+
+[position(2,0), obstacle(up), obstacle(right), map(down), map(left), map(right)]
+[navigatorEnvAssist] 1334 ms waypoint(waypoint(move(down),k))!!!!!! PERCEIVE !!!!!
+[position(2,1), obstacle(left), map(up), map(down), map(left), map(right)]
+
+
+[MarsEnv] navigatorEnvAssist doing: move(down)
+!!!!!! PERCEIVE !!!!!
+[position(2,2), obstacle(down), obstacle(left), map(up), map(down), map(left), map(right)]
+[navigatorEnvAssist] 1547 ms waypoint(waypoint(move(down),g))
+
+[MarsEnv] navigatorEnvAssist doing: move(down)
+[navigatorEnvAssist] 1763 ms waypoint(waypoint(move(right),h))
+
+[MarsEnv] navigatorEnvAssist doing: move(right)!!!!!! PERCEIVE !!!!!
+
+[position(3,2), obstacle(right), map(up), map(down), map(left)]
+!!!!!! PERCEIVE !!!!![navigatorEnvAssist] 1978 ms waypoint(waypoint(move(down),d))
+[position(3,3), obstacle(down), obstacle(left), obstacle(right), map(up), map(left)]
+
+
+[MarsEnv] navigatorEnvAssist doing: move(down)
+[navigatorEnvAssist] 2194 ms navigate(arrived(d))
