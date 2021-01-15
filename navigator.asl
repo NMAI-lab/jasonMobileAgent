@@ -16,16 +16,22 @@
 
 // Case where we are already at the destination
 +!navigate(Destination)
-	:	position(X,Y) & locationName(Destination,[X,Y])
-	<-	.print("Made it to the destination!");
-		-destinaton(Destination).
+	:	position(X,Y) 
+		& locationName(Destination,[X,Y])
+		& startTime(Start)
+	<-	.print((system.time - Start), " ms navigate(arrived(",Destination,"))");
+		-destinaton(Destination);
+		-startTime(_).
 
 // We don't have a route plan, get one and set the waypoints.
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y])
-	<-	+destination(Destination);
+	<-	+startTime(system.time);		// Get initial time stamp, for benchmarking performance
+		.print((system.time - Start), " ms navigate(gettingRoute(",Destination,"))");
+		.print((system.time - Start), " ms navigate(current(",Current,"))");
+		+destination(Destination);
 		?a_star(Current,Destination,Solution,Cost);
-//		.print(Solution);
+		.print((system.time - Start), " ms navigate(route(",Solution,"))");
 		for (.member( op(Direction,NextPosition), Solution)) {
 			!waypoint(Direction,NextPosition);
 		}
@@ -36,17 +42,20 @@
 	:	isDirection(Direction) &
 		map(Direction) &
 		not obstacle(Direction)
-	<-	move(Direction).
+	<-	move(Direction);
+		.print((system.time - Start), " ms waypoint(move(",Direction,"))").
 	
 // Move through the map, if possible.
 +!waypoint(Direction, Next)
 	:	isDirection(Direction) &
 		map(Direction) &
 		obstacle(Direction)
-	<-	!updateMap(Direction, Next).
+	<-	.print((system.time - Start), " ms waypoint(updateMap(",Direction,",",Next,"))");
+		!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(_,_).
++!waypoint(_,_)
+	<-	.print((system.time - Start), " ms waypoint(waypoint(default)").
 
 +!updateMap(Direction, NextName)
 	:	position(X,Y) &
@@ -54,12 +63,13 @@
 		possible(PositionName,NextName) &
 		destination(Destination)
 	<-	-possible(PositionName,NextName)
-		.print("Did map update ", Direction, " ", NextName);
+		.print((system.time - Start), " ms updateMap(",Direction,",",NextName,"))");
 		.drop_all_intentions;
 		!navigate(Destination).
 	
 +!updateMap(Direction,NextName)
 	<-	.print("Map update default ",Direction, " ", NextName);
+		.print((system.time - Start), " ms updateMap(default,",Direction,",",NextName,"))");
 		!updateMap(Direction,NextName).
 		
 
