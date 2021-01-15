@@ -21,12 +21,14 @@
 
 // Perception of a path provided by the environment based navigation support
 +path(Path)
-	<-	+route(Path).
+	<-	.print((system.time - Start), " ms route(",Path,")");
+		+route(Path).
 
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
 	<-	.print("Made it to the destination!");
+		.print((system.time - Start), " ms route(",Path,")");
 		-destinaton(Destination);
 		-route(Path).
 
