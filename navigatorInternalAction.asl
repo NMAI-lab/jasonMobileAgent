@@ -23,9 +23,10 @@
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
 		& startTime(Start)
-	<-	.print((system.time - Start), " ms navigate(arrived(",Destination,"))");
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
 		-destinaton(Destination);
-		-route(Path).
+		-route(Path);
+		.stopMAS.
 
 // We are not at the destination, set the waypoints.
 +!navigate(Destination)
@@ -33,10 +34,11 @@
 		& locationName(Current,[X,Y])
 	<-	Start = system.time;
 		+startTime(Start);				// Get initial time stamp, for benchmarking performance
-		.print((system.time - Start), " ms navigate(gettingRoute(",Destination,"))\n");
-		.print((system.time - Start), " ms navigate(current(",Current,"))");
+		.broadcast(tell, navigate(elapsed(system.time - Start), gettingRoute(Destination)));
+		.broadcast(tell, navigate(elapsed(system.time - Start), current(Current)));
 		navigationInternalAction.getPath(Current,Destination,Path);
 		.print((system.time - Start), " ms navigate(route(",Path,"))");
+		.broadcast(tell, navigate(elapsed(system.time - Start), route(Path)));
 		for (.member(NextPosition, Path)) {
 			!waypoint(NextPosition);
 		}
@@ -44,7 +46,7 @@
 
 +!navigate(Destination)
 	:	startTime(Start)
-	<-	.print((system.time - Start), " ms navigate(default)");
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), default));
 		!navigate(Destination).
 
 // Move through the map, if possible.
@@ -55,7 +57,7 @@
 		& map(Direction)
 		& (not obstacle(Direction))
 		& startTime(Start)
-	<-	.print((system.time - Start), " ms waypoint(waypoint(move(",Direction,"),",NextPosition,"))\n");
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), move(Direction,NextPosition)));
 		move(Direction).
 	
 // Move through the map, if possible.
@@ -66,9 +68,9 @@
 //	<-	!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(Next) 
++!waypoint(_) 
 	:	startTime(Start)
-	<-	.print((system.time - Start), " ms waypoint(default)").
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), default)).
 
 
 // Revisit map update later.

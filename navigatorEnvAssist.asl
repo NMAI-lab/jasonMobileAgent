@@ -23,21 +23,23 @@
 +path(Path)
 	:	startTime(Start)
 	<-	.print((system.time - Start), " ms route(",Path,")");
+		.broadcast(tell, path(elapsed(system.time - Start), route(Path)));
 		+route(Path).
 
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
 		& startTime(Start)
-	<-	.print((system.time - Start), " ms navigate(arrived(",Destination,"))");
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
 		-destinaton(Destination);
-		-route(Path).
+		-route(Path);
+		.stopMAS.
 
 // We have a route path, set the waypoints.
 +!navigate(Destination)
 	:	route(Path)
 		& startTime(Start)
-	<-	.print((system.time - Start), " ms navigate(route(",Path,"))");
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), route(Path)));
 		for (.member(NextPosition, Path)) {
 			!waypoint(NextPosition);
 		}
@@ -48,15 +50,15 @@
 	:	position(X,Y) & locationName(Current,[X,Y])
 	<-	Start = system.time;
 		+startTime(Start);				// Get initial time stamp, for benchmarking performance
-		.print((system.time - Start), " ms navigate(getPath(",Destination,"))\n");
-		.print((system.time - Start), " ms navigate(current(",Current,"))");
+		.broadcast(tell, navigate(elapsed(system.time - Start), getPath(Destination)));
+		.broadcast(tell, navigate(elapsed(system.time - Start), current(Current)));
 		+destination(Destination);
 		getPath(Current,Destination);
 		!navigate(Destination).
 
 +!navigate(Destination)
 	:	startTime(Start)
-	<-	.print((system.time - Start), " ms navigate(default)");
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), default));
 		!navigate(Destination).
 	
 
@@ -68,7 +70,7 @@
 		& map(Direction)
 		& (not obstacle(Direction))
 		& startTime(Start)
-	<-	.print((system.time - Start), " ms waypoint(waypoint(move(",Direction,"),",NextPosition,"))\n");
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), move(Destination,NextPosition)));
 		move(Direction).
 	
 // Move through the map, if possible.
@@ -81,7 +83,7 @@
 // Deal with case where Direction is not a valid way to go.
 +!waypoint(Next)
 	:	startTime(Start)
-	<-	.print((system.time - Start), " ms waypoint(default)").
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), default)).
 
 // Revisit map update later.
 /*

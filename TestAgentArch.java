@@ -20,14 +20,16 @@ public class TestAgentArch extends AgArch {
 		this.cycleNumber = 0;
 	}
 	
+
     @Override
-    public void sendMsg(Message m) throws Exception {
+    public void broadcast(Message m) throws Exception {
         // Make sure sender parameter is set
         if (m.getSender() == null)  m.setSender(getAgName());
 
         // Log the message (this is a single agent environment, just log the message)
-		this.logger.info(m.toString());
+		this.logger.info(m.getPropCont().toString());
     }
+
 	
 	public void reasoningCycleStarting() {
 		super.reasoningCycleStarting();
