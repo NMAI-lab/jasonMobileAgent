@@ -1,0 +1,168 @@
+Launching jasonMobileAgent.mas2j
+Parsing project file...  parsed successfully!
+Executing C:\Program Files\Java\jdk1.8.0_261\bin\java -classpath D:\Local Documents\Utilities\jason-2.6.2\libs\ant-launcher-1.10.5.jar org.apache.tools.ant.launch.Launcher -e -f bin\build.xml run
+Buildfile: D:\Local Documents\Github\jasonMobileAgent\bin\build.xml
+
+init:
+
+user-init:
+
+compile:
+
+run:
+Running project jasonMobileAgent
+[AgentArch] Reasoning Cycle: 1
+[AgentArch] Reasoning Period: 6
+[AgentArch] Reasoning Cycle: 2
+[AgentArch] Reasoning Period: 0
+[AgentArch] navigate(elapsed(1),getPath(d))
+[AgentArch] Reasoning Cycle: 3
+[AgentArch] Reasoning Period: 1
+[AgentArch] navigate(elapsed(2),current(a))
+[AgentArch] Reasoning Cycle: 4
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 5
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 6
+[AgentArch] Reasoning Period: 1
+[NavigatorGridWorld] navigatorEnvAssist doing: getPath(a,d)
+[navigatorEnvAssist] 45 ms route([e,i,m,n,o,k,g,h,d])
+[AgentArch] Reasoning Cycle: 7
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 8
+[AgentArch] Reasoning Period: 0
+[AgentArch] path(elapsed(45),route([e,i,m,n,o,k,g,h,d]))
+[AgentArch] Reasoning Cycle: 9
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 10
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 11
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 12
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 13
+[AgentArch] Reasoning Period: 0
+[AgentArch] navigate(elapsed(0),getPath(d))
+[AgentArch] Reasoning Cycle: 14
+[AgentArch] Reasoning Period: 0
+[AgentArch] navigate(elapsed(0),current(a))
+[AgentArch] Reasoning Cycle: 15
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 16
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 17
+[AgentArch] Reasoning Period: 1
+[NavigatorGridWorld] navigatorEnvAssist doing: getPath(a,d)
+[AgentArch] Reasoning Cycle: 18
+[AgentArch] Reasoning Period: 0
+[AgentArch] navigate(elapsed(5),route([e,i,m,n,o,k,g,h,d]))
+[AgentArch] Reasoning Cycle: 19
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 20
+[AgentArch] Reasoning Period: 2
+[AgentArch] Reasoning Cycle: 21
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(7),move(Destination,e))
+[AgentArch] Reasoning Cycle: 22
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 23
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(up)
+[AgentArch] Reasoning Cycle: 24
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 25
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(11),move(Destination,i))
+[AgentArch] Reasoning Cycle: 26
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 27
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(up)
+[AgentArch] Reasoning Cycle: 28
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 29
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(16),move(Destination,m))
+[AgentArch] Reasoning Cycle: 30
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 31
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(up)
+[AgentArch] Reasoning Cycle: 32
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 33
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(19),move(Destination,n))
+[AgentArch] Reasoning Cycle: 34
+[AgentArch] Reasoning Period: 2
+[AgentArch] Reasoning Cycle: 35
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(right)
+[AgentArch] Reasoning Cycle: 36
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 37
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(23),move(Destination,o))
+[AgentArch] Reasoning Cycle: 38
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 39
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(right)
+[AgentArch] Reasoning Cycle: 40
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 41
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(26),move(Destination,k))
+[AgentArch] Reasoning Cycle: 42
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 43
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(down)
+[AgentArch] Reasoning Cycle: 44
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 45
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(28),move(Destination,g))
+[AgentArch] Reasoning Cycle: 46
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 47
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(down)
+[AgentArch] Reasoning Cycle: 48
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 49
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(31),move(Destination,h))
+[AgentArch] Reasoning Cycle: 50
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 51
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(right)
+[AgentArch] Reasoning Cycle: 52
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 53
+[AgentArch] Reasoning Period: 0
+[AgentArch] waypoint(elapsed(101),move(Destination,d))
+[AgentArch] Reasoning Cycle: 54
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 55
+[AgentArch] Reasoning Period: 0
+[NavigatorGridWorld] navigatorEnvAssist doing: move(down)
+[AgentArch] Reasoning Cycle: 56
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 57
+[AgentArch] Reasoning Period: 0
+[AgentArch] navigate(elapsed(107),arrived(d))
+[AgentArch] Reasoning Cycle: 58
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 59
+[AgentArch] Reasoning Period: 0
+[AgentArch] Reasoning Cycle: 60
+[AgentArch] Reasoning Period: 1
+[AgentArch] Reasoning Cycle: 61
+[AgentArch] Reasoning Period: 2
+
+user-end:
+
+BUILD SUCCESSFUL
+Total time: 1 second
