@@ -22,23 +22,32 @@
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Destination,[X,Y])
-	<-	.print("Made it to the destination!");
+		& startTime(Start)
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
 		-destinaton(Destination);
-		-route(Path).
+		-route(Path);
+		.stopMAS.
 
 // We are not at the destination, set the waypoints.
 +!navigate(Destination)
 	:	position(X,Y) 
 		& locationName(Current,[X,Y])
-	<-	navigationInternalAction.getPath(Current,Destination,Path);
+	<-	Start = system.time;
+		+startTime(Start);				// Get initial time stamp, for benchmarking performance
+		.broadcast(tell, navigate(elapsed(system.time - Start), gettingRoute(Destination)));
+		.broadcast(tell, navigate(elapsed(system.time - Start), current(Current)));
+		navigationInternalAction.getPath(Current,Destination,Path);
+		.print((system.time - Start), " ms navigate(route(",Path,"))");
+		.broadcast(tell, navigate(elapsed(system.time - Start), route(Path)));
 		for (.member(NextPosition, Path)) {
 			!waypoint(NextPosition);
 		}
 		!navigate(Destination).	
 
 +!navigate(Destination)
-	<-	!navigate(Destination).
-	
+	:	startTime(Start)
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), default));
+		!navigate(Destination).
 
 // Move through the map, if possible.
 +!waypoint(NextPosition)
@@ -47,7 +56,9 @@
 		& direction(Current,NextPosition,Direction)
 		& map(Direction)
 		& (not obstacle(Direction))
-	<-	move(Direction).
+		& startTime(Start)
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), move(Direction,NextPosition)));
+		move(Direction).
 	
 // Move through the map, if possible.
 //+!waypoint(NextPosition)
@@ -57,7 +68,9 @@
 //	<-	!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(Next) <- .print("Waypoint default").
++!waypoint(_) 
+	:	startTime(Start)
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), default)).
 
 
 // Revisit map update later.

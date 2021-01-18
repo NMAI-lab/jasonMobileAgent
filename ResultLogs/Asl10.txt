@@ -1,0 +1,57 @@
+Launching jasonMobileAgent.mas2j
+Parsing project file...  parsed successfully!
+Executing C:\Program Files\Java\jdk1.8.0_261\bin\java -classpath D:\Local Documents\Utilities\jason-2.6.2\libs\ant-launcher-1.10.5.jar org.apache.tools.ant.launch.Launcher -e -f bin\build.xml run
+Buildfile: D:\Local Documents\Github\jasonMobileAgent\bin\build.xml
+
+init:
+
+user-init:
+
+compile:
+
+run:
+Running project jasonMobileAgent
+[navigator] 1 ms navigate(gettingRoute(d))!!!!!! PERCEIVE !!!!!
+
+[position(0,3), obstacle(down), obstacle(left), map(up), map(right)]
+[navigator] 1 ms navigate(current(a))
+
+[navigator] 36 ms navigate(route([op(initial,a),op(up,e),op(up,i),op(up,m),op(right,n),op(right,o),op(down,k),op(right,l),op(down,h),op(down,d)]))
+[navigator] 38 ms waypoint(waypoint(default)!!!!!! PERCEIVE !!!!!
+[MarsEnv] navigator doing: move(up)
+[position(0,2), obstacle(left), obstacle(right), map(up), map(down), map(right)]
+
+[navigator] 250 ms waypoint(move(up))!!!!!! PERCEIVE !!!!!
+[MarsEnv] navigator doing: move(up)
+[position(0,1), obstacle(left), obstacle(right), map(up), map(down), map(right)]
+
+[navigator] 464 ms waypoint(move(up))!!!!!! PERCEIVE !!!!!
+
+[position(0,0), obstacle(up), obstacle(left), map(down), map(right)]
+[MarsEnv] navigator doing: move(up)
+[navigator] 680 ms waypoint(move(up))!!!!!! PERCEIVE !!!!!
+[position(1,0), obstacle(up), obstacle(down), map(down), map(left), map(right)]
+[MarsEnv] navigator doing: move(right)
+
+[navigator] 898 ms waypoint(move(right))!!!!!! PERCEIVE !!!!!
+[MarsEnv] navigator doing: move(right)
+
+[position(2,0), obstacle(up), obstacle(right), map(down), map(left), map(right)]
+[navigator] 1112 ms waypoint(move(right))!!!!!! PERCEIVE !!!!!
+[position(2,1), obstacle(left), map(up), map(down), map(left), map(right)]
+[MarsEnv] navigator doing: move(down)
+
+!!!!!! PERCEIVE !!!!![navigator] 1390 ms waypoint(move(down))
+
+[MarsEnv] navigator doing: move(right)
+[position(3,1), obstacle(up), obstacle(right), map(up), map(down), map(left)]
+[navigator] 1605 ms waypoint(move(right))!!!!!! PERCEIVE !!!!!
+[MarsEnv] navigator doing: move(down)
+[position(3,2), obstacle(right), map(up), map(down), map(left)]
+
+[navigator] 1821 ms waypoint(move(down))!!!!!! PERCEIVE !!!!!
+[MarsEnv] navigator doing: move(down)
+
+[position(3,3), obstacle(down), obstacle(left), obstacle(right), map(up), map(left)]
+[navigator] 2035 ms waypoint(move(down))
+[navigator] 2036 ms navigate(arrived(d))

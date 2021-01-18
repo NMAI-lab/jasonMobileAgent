@@ -16,16 +16,24 @@
 
 // Case where we are already at the destination
 +!navigate(Destination)
-	:	position(X,Y) & locationName(Destination,[X,Y])
-	<-	.print("Made it to the destination!");
-		-destinaton(Destination).
+	:	position(X,Y) 
+		& locationName(Destination,[X,Y])
+		& startTime(Start)
+	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
+		-destinaton(Destination);
+		-startTime(_);
+		.stopMAS.
 
 // We don't have a route plan, get one and set the waypoints.
 +!navigate(Destination)
 	:	position(X,Y) & locationName(Current,[X,Y])
-	<-	+destination(Destination);
+	<-	Start = system.time;
+		+startTime(Start);				// Get initial time stamp, for benchmarking performance
+		.broadcast(tell, navigate(elapsed(system.time - Start), gettingRoute(Destination)));
+		.broadcast(tell, navigate(elapsed(system.time - Start), current(Current)));
+		+destination(Destination);
 		?a_star(Current,Destination,Solution,Cost);
-//		.print(Solution);
+		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
 		for (.member( op(Direction,NextPosition), Solution)) {
 			!waypoint(Direction,NextPosition);
 		}
@@ -33,33 +41,41 @@
 	
 // Move through the map, if possible.
 +!waypoint(Direction,_)
-	:	isDirection(Direction) &
-		map(Direction) &
-		not obstacle(Direction)
-	<-	move(Direction).
+	:	isDirection(Direction)
+		& map(Direction)
+		& not obstacle(Direction)
+		& startTime(Start)
+	<-	move(Direction);
+		.broadcast(tell, waypoint(elapsed(system.time - Start), move(Direction))).
 	
 // Move through the map, if possible.
 +!waypoint(Direction, Next)
-	:	isDirection(Direction) &
-		map(Direction) &
-		obstacle(Direction)
-	<-	!updateMap(Direction, Next).
+	:	isDirection(Direction)
+		& map(Direction)
+		& obstacle(Direction)
+		& startTime(Start)
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), updateMap(Direction,Next)));
+		!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
-+!waypoint(_,_).
++!waypoint(_,_)
+	:	startTime(Start)
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), waypoint(default))).
 
 +!updateMap(Direction, NextName)
-	:	position(X,Y) &
-		locationName(PositionName, [X,Y]) &
-		possible(PositionName,NextName) &
-		destination(Destination)
+	:	position(X,Y)
+		& locationName(PositionName, [X,Y])
+		& possible(PositionName,NextName)
+		& destination(Destination)
+		& startTime(Start)
 	<-	-possible(PositionName,NextName)
-		.print("Did map update ", Direction, " ", NextName);
+		.broadcast(tell, updateMap(elapsed(system.time - Start), Direction, NextName));
 		.drop_all_intentions;
 		!navigate(Destination).
 	
 +!updateMap(Direction,NextName)
-	<-	.print("Map update default ",Direction, " ", NextName);
+	:	startTime(Start)
+	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default, Direction,NextName));
 		!updateMap(Direction,NextName).
 		
 
