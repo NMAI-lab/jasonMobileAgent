@@ -1,12 +1,12 @@
 MAS jasonMobileAgent {
 
-    infrastructure: Centralised
-
+    //infrastructure: Centralised
+	
     environment: NavigatorGridWorld
 
     agents:
-		navigator;
-		//navigatorEnvAssist;
-		//navigatorInternalAction;
+		navigator agentArchClass TestAgentArch;
+		//navigatorEnvAssist agentArchClass TestAgentArch;
+		//navigatorInternalAction agentArchClass TestAgentArch;
 }
 

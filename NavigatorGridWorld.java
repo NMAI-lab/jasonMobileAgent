@@ -21,11 +21,12 @@ public class NavigatorGridWorld extends Environment {
 	public static final Term moveLeft = Literal.parseLiteral("move(left)");
 	public static final Term moveRight = Literal.parseLiteral("move(right)");
 	
-	static Logger logger = Logger.getLogger(MarsEnv.class.getName());
+	static Logger logger;
 	private String path;
 	
 	@Override
     public void init(String[] args) {
+		logger = Logger.getLogger("NavigatorGridWorld");
         model = new NavMap();
         view  = new NavMapView(model);
         model.setView(view);
@@ -35,7 +36,7 @@ public class NavigatorGridWorld extends Environment {
 
     @Override
     public boolean executeAction(String ag, Structure action) {
-        logger.info(ag+" doing: "+ action);
+		logger.info(ag+" doing: "+ action);
         try {
             if (action.equals(moveUp)) {
                 model.move("up");
@@ -59,9 +60,9 @@ public class NavigatorGridWorld extends Environment {
 
         updatePercepts();
 
-        try {
-            Thread.sleep(200);
-        } catch (Exception e) {}
+        //try {
+        //    Thread.sleep(200);
+        //} catch (Exception e) {}
         informAgsEnvironmentChanged();
         return true;
     }
@@ -71,8 +72,8 @@ public class NavigatorGridWorld extends Environment {
         clearPercepts();
 		
 		List<String> perceptionStrings = model.perceive();
-		System.out.println("!!!!!! PERCEIVE !!!!!");
-		System.out.println(perceptionStrings.toString());
+		//System.out.println("!!!!!! PERCEIVE !!!!!");
+		//System.out.println(perceptionStrings.toString());
 		Iterator<String> perceptionIterator = perceptionStrings.iterator();
         while (perceptionIterator.hasNext()) {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());
