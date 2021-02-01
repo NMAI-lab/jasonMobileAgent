@@ -173,7 +173,7 @@ public class GridMap {
 	 */
 	public void setObstacle(String current, String blocked) {		
 		List<String> possible = getPossibleDestinations(current);
-		System.out.println(possible.toString());
+
 		// Need to remove it from the list. It's a shallow copy, so just go with it.
 		possible.remove(blocked);	
 	}
