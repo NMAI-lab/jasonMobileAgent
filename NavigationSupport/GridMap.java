@@ -8,9 +8,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GridMap {
-
+	
+	private static GridMap instance;
+	
     private Hashtable<String, List<String>> locationGraph;
     private Hashtable<String, Location> locations;
+
+	public static GridMap getInstance(String path) {
+		if (instance == null) {
+			instance = new GridMap(path);
+		}
+		return instance;
+	}
+	
+    private GridMap(String path) {
+        this.locationGraph = new Hashtable<>();
+        this.locations = new Hashtable<>();
+        this.loadMapFile(path);
+    }
 
     public Hashtable<String, List<String>> getLocationGraph() {
         return (Hashtable<String, List<String>>)this.locationGraph.clone();
@@ -18,12 +33,6 @@ public class GridMap {
 
     public Hashtable<String, Location> getLocations() {
         return (Hashtable<String, Location>)this.locations.clone();
-    }
-
-    public GridMap(String path) {
-        this.locationGraph = new Hashtable<>();
-        this.locations = new Hashtable<>();
-        this.loadMapFile(path);
     }
 
     private void loadMapFile(String path){
@@ -157,4 +166,15 @@ public class GridMap {
     public double getHeuristic(String current, String goal) {
         return this.getCost(current,goal);
     }
+	
+	/**
+	 * Set an obstacle. Removes 'blocked' from list of places that are 
+	 * accessible from 'current'
+	 */
+	public void setObstacle(String current, String blocked) {
+		List<String> possible = getPossibleDestinations(current);
+		
+		// Need to remove it from the list. It's a shallow copy, so just go with it.
+		possible.remove(blocked);
+	}
 }
