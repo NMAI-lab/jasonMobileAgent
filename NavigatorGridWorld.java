@@ -50,6 +50,9 @@ public class NavigatorGridWorld extends Environment {
 				String actionString = action.toString();
 				if (actionString.contains("getPath")) {
 					path = MapSearchFunctions.getNavigationPath(actionString);
+				} else if (actionString.contains("setObstacle")) {
+					System.out.println("Made it to the env set obstacle!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					MapSearchFunctions.setObstacle(actionString);
 				} else {
 					return false;
 				}
@@ -60,9 +63,9 @@ public class NavigatorGridWorld extends Environment {
 
         updatePercepts();
 
-        //try {
-        //    Thread.sleep(200);
-        //} catch (Exception e) {}
+        try {
+            Thread.sleep(200);
+        } catch (Exception e) {}
         informAgsEnvironmentChanged();
         return true;
     }
@@ -72,8 +75,8 @@ public class NavigatorGridWorld extends Environment {
         clearPercepts();
 		
 		List<String> perceptionStrings = model.perceive();
-		//System.out.println("!!!!!! PERCEIVE !!!!!");
-		//System.out.println(perceptionStrings.toString());
+		System.out.println("!!!!!! PERCEIVE !!!!!");
+		System.out.println(perceptionStrings.toString());
 		Iterator<String> perceptionIterator = perceptionStrings.iterator();
         while (perceptionIterator.hasNext()) {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());

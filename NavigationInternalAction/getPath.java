@@ -14,12 +14,17 @@ public class getPath extends DefaultInternalAction {
 	public static final int destinationIndex = 1;
 	public static final int pathIndex = 2;
 	
+	private static GridMap map;
+	
     @Override
 
     public Object execute(TransitionSystem ts, Unifier un, Term[] args) throws Exception {
         // execute the internal action
         ts.getAg().getLogger().info("executing internal action 'NavigationInternalAction.getPath'");
         
+		// Maintain the map, don't want it to get garbage collected.
+		map = MapSearchFunctions.getMapInstance();
+		
 		try {
 			// Get the parameters
 			Term currentPositionTerm = (Term) args[currentIndex];

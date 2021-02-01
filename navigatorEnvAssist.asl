@@ -68,17 +68,19 @@
 		& possible(Current,NextPosition)
 		& direction(Current,NextPosition,Direction)
 		& map(Direction)
-		& (not obstacle(Direction))
+		& not obstacle(Direction)
 		& startTime(Start)
 	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), move(Destination,NextPosition)));
 		move(Direction).
 	
 // Move through the map, if possible.
-//+!waypoint(NextPosition)
-//	:	isDirection(Direction) &
-//		map(Direction) &
-//		obstacle(Direction)
-//	<-	!updateMap(Direction, Next).
++!waypoint(NextPosition)
+	:	isDirection(Direction)
+		& map(Direction)
+		& obstacle(Direction)
+		& startTime(Start)
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), obstacle(Destination,NextPosition)));
+		!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
 +!waypoint(Next)
@@ -86,22 +88,25 @@
 	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), default)).
 
 // Revisit map update later.
-/*
+
 +!updateMap(Direction, NextName)
-	:	position(X,Y) &
-		locationName(PositionName, [X,Y]) &
-		possible(PositionName,NextName) &
-		destination(Destination)
-	<-	-possible(PositionName,NextName)
-		.print("Did map update ", Direction, " ", NextName);
+	:	position(X,Y)
+		& locationName(PositionName, [X,Y]) 
+		& destination(Destination)
+		& startTime(Start)
+	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), obstacle(Direction,NextName)));
+		//-possible(PositionName,NextName);
+		setObstacle(PositionName,NextName);
+		//.print("Did map update ", Direction, " ", NextName);
 		.drop_all_intentions;
 		!navigate(Destination).
 	
-+!updateMap(Direction,NextName)
-	<-	.print("Map update default ",Direction, " ", NextName);
-		!updateMap(Direction,NextName).
+//+!updateMap(Direction,NextName)
+//	:	startTime(Start)
+//	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default)).
+//		!updateMap(Direction,NextName).
 	
-*/
+
 
 // Get the direction of the next movement
 direction(Current,Next,up)

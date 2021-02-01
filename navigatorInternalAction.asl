@@ -25,8 +25,8 @@
 		& startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
 		-destinaton(Destination);
-		-route(Path);
-		.stopMAS.
+		-route(Path);.
+		//.stopMAS.
 
 // We are not at the destination, set the waypoints.
 +!navigate(Destination)
@@ -61,11 +61,11 @@
 		move(Direction).
 	
 // Move through the map, if possible.
-//+!waypoint(NextPosition)
-//	:	isDirection(Direction) &
-//		map(Direction) &
-//		obstacle(Direction)
-//	<-	!updateMap(Direction, Next).
++!waypoint(NextPosition)
+	:	isDirection(Direction) &
+		map(Direction) &
+		obstacle(Direction)
+	<-	!updateMap(Direction, Next).
 
 // Deal with case where Direction is not a valid way to go.
 +!waypoint(_) 
@@ -74,13 +74,13 @@
 
 
 // Revisit map update later.
-/*
+
 +!updateMap(Direction, NextName)
 	:	position(X,Y) &
 		locationName(PositionName, [X,Y]) &
 		possible(PositionName,NextName) &
 		destination(Destination)
-	<-	-possible(PositionName,NextName)
+	<-	navigationInternalAction.setObstacle(PositionName,NextName);
 		.print("Did map update ", Direction, " ", NextName);
 		.drop_all_intentions;
 		!navigate(Destination).
@@ -89,7 +89,7 @@
 	<-	.print("Map update default ",Direction, " ", NextName);
 		!updateMap(Direction,NextName).
 	
-*/
+
 
 // Get the direction of the next movement
 direction(Current,Next,up)
