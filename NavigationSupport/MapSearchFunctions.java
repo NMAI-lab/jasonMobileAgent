@@ -31,7 +31,6 @@ public class MapSearchFunctions {
     }
 	
 	public static void setObstacle(String action) {
-		System.out.println("Made it here!!!!!!!!!!");
 		getMapInstance();
 		int bracketOpen = action.indexOf("(");
         int bracketClose = action.indexOf(")");

@@ -32,7 +32,6 @@
 		& startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
 		-destinaton(Destination);
-		-route(Path);
 		.stopMAS.
 
 // We have a route path, set the waypoints.
@@ -43,6 +42,7 @@
 		for (.member(NextPosition, Path)) {
 			!waypoint(NextPosition);
 		}
+		-route(Path);
 		!navigate(Destination).
 		
 // We don't have a route plan, get one.
@@ -60,8 +60,7 @@
 	:	startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), default));
 		!navigate(Destination).
-	
-
+		
 // Move through the map, if possible.
 +!waypoint(NextPosition)
 	:	position(X,Y) & locationName(Current,[X,Y])
@@ -75,12 +74,14 @@
 	
 // Move through the map, if possible.
 +!waypoint(NextPosition)
-	:	isDirection(Direction)
+	:	position(X,Y) & locationName(Current,[X,Y])
+		//& possible(Current,NextPosition)
+		& direction(Current,NextPosition,Direction)
 		& map(Direction)
 		& obstacle(Direction)
 		& startTime(Start)
-	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), obstacle(Destination,NextPosition)));
-		!updateMap(Direction, Next).
+	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), obstacle(NextPosition)));
+		!updateMap(NextPosition).
 
 // Deal with case where Direction is not a valid way to go.
 +!waypoint(Next)
@@ -89,22 +90,20 @@
 
 // Revisit map update later.
 
-+!updateMap(Direction, NextName)
-	:	position(X,Y)
-		& locationName(PositionName, [X,Y]) 
++!updateMap(NextName)
+	:	position(X,Y) & locationName(PositionName, [X,Y]) 
 		& destination(Destination)
 		& startTime(Start)
-	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), obstacle(Direction,NextName)));
-		//-possible(PositionName,NextName);
+	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), obstacle(NextName)));
+		-possible(PositionName,NextName);
 		setObstacle(PositionName,NextName);
-		//.print("Did map update ", Direction, " ", NextName);
 		.drop_all_intentions;
 		!navigate(Destination).
 	
-//+!updateMap(Direction,NextName)
+//+!updateMap(NextName)
 //	:	startTime(Start)
 //	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default)).
-//		!updateMap(Direction,NextName).
+//		!updateMap(NextName).
 	
 
 

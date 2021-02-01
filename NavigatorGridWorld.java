@@ -24,6 +24,8 @@ public class NavigatorGridWorld extends Environment {
 	static Logger logger;
 	private String path;
 	
+	private GridMap agentsMap;
+	
 	@Override
     public void init(String[] args) {
 		logger = Logger.getLogger("NavigatorGridWorld");
@@ -31,6 +33,7 @@ public class NavigatorGridWorld extends Environment {
         view  = new NavMapView(model);
         model.setView(view);
 		path = null;
+		agentsMap = MapSearchFunctions.getMapInstance();
         updatePercepts();
     }
 
@@ -51,7 +54,6 @@ public class NavigatorGridWorld extends Environment {
 				if (actionString.contains("getPath")) {
 					path = MapSearchFunctions.getNavigationPath(actionString);
 				} else if (actionString.contains("setObstacle")) {
-					System.out.println("Made it to the env set obstacle!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					MapSearchFunctions.setObstacle(actionString);
 				} else {
 					return false;
@@ -75,8 +77,8 @@ public class NavigatorGridWorld extends Environment {
         clearPercepts();
 		
 		List<String> perceptionStrings = model.perceive();
-		System.out.println("!!!!!! PERCEIVE !!!!!");
-		System.out.println(perceptionStrings.toString());
+		//System.out.println("!!!!!! PERCEIVE !!!!!");
+		//System.out.println(perceptionStrings.toString());
 		Iterator<String> perceptionIterator = perceptionStrings.iterator();
         while (perceptionIterator.hasNext()) {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());
