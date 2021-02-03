@@ -73,12 +73,12 @@
 	:	position(X,Y)
 		& locationName(PositionName, [X,Y])
 		& possible(PositionName,NextName)
-		& destination(Destination)
+		& missionTo(Destination)
 		& startTime(Start)
 	<-	-possible(PositionName,NextName)
 		.broadcast(tell, updateMap(elapsed(system.time - Start), Direction, NextName));
 		.drop_all_intentions;
-		!navigate(Destination).
+		!missionTo(Destination).
 	
 +!updateMap(Direction,NextName)
 	:	startTime(Start)

@@ -1,6 +1,6 @@
 // Demo program of Jason based navigation using A*
 
-!navigate(d).
+!missionTo(d).
 
 /*
 // Benchmark version
@@ -19,11 +19,19 @@
 +!navigate(_) <- .print("Done").
 */
 
+{ include("batteryManager.asl") }
+
++!missionTo(Destination)
+	<-	+missionTo(Destination)
+		!navigate(Destination);
+		.stopMAS.
+
 // Perception of a path provided by the environment based navigation support
 +path(Path)
 	:	startTime(Start)
 	<-	.print((system.time - Start), " ms route(",Path,")");
 		.broadcast(tell, path(elapsed(system.time - Start), route(Path)));
+		-route(_);	// Get rid of any old routes.
 		+route(Path).
 
 // Case where we are already at the destination
@@ -31,8 +39,7 @@
 	:	position(X,Y) & locationName(Destination,[X,Y])
 		& startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
-		-destinaton(Destination);
-		.stopMAS.
+		-destinaton(Destination).
 
 // We have a route path, set the waypoints.
 +!navigate(Destination)
@@ -92,14 +99,14 @@
 
 +!updateMap(NextName)
 	:	position(X,Y) & locationName(PositionName, [X,Y]) 
-		& destination(Destination)
+		& missionTo(Destination)
 		& startTime(Start)
 	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), obstacle(NextName)));
 		-possible(PositionName,NextName);
 		setObstacle(PositionName,NextName);
 		.drop_all_intentions;
-		!navigate(Destination).
-	
+		!missionTo(Destination).
+		
 //+!updateMap(NextName)
 //	:	startTime(Start)
 //	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default)).

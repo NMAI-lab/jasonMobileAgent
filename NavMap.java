@@ -23,7 +23,7 @@ class NavMap extends GridWorldModel {
 		super(4, 4, 1); // 4 x 4 grid, 1 agent
 		
 		// Setup the battery
-		batteryState = 5;
+		batteryState = 10;
 		charging = false;
 		
 		// Add the walls

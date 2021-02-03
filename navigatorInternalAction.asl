@@ -86,13 +86,13 @@
 
 +!updateMap(NextName)
 	:	position(X,Y) & locationName(PositionName, [X,Y]) 
-		& destination(Destination)
+		& missionTo(Destination)
 		& startTime(Start)
 	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), obstacle(NextName)));
 		-possible(PositionName,NextName);
 		navigationInternalAction.setObstacle(PositionName,NextName);
 		.drop_all_intentions;
-		!navigate(Destination).
+		!missionTo(Destination).
 
 
 // Get the direction of the next movement
