@@ -1,6 +1,6 @@
 // Demo program of Jason based navigation using A*
 
-!navigate(d).
+!missionTo(d).
 
 /*
 +!navigate
@@ -14,15 +14,22 @@
 		.
 */
 
+{ include("batteryManager.asl") }
+
++!missionTo(Destination)
+	<-	+missionTo(Destination)
+		!navigate(Destination);
+		.stopMAS.
+
 // Case where we are already at the destination
 +!navigate(Destination)
 	:	position(X,Y) 
 		& locationName(Destination,[X,Y])
 		& startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
-		-destinaton(Destination);
-		-startTime(_);
-		.stopMAS.
+		-destinaton(Destination).
+		//-startTime(_);
+		//.stopMAS.
 
 // We don't have a route plan, get one and set the waypoints.
 +!navigate(Destination)
@@ -66,12 +73,12 @@
 	:	position(X,Y)
 		& locationName(PositionName, [X,Y])
 		& possible(PositionName,NextName)
-		& destination(Destination)
+		& missionTo(Destination)
 		& startTime(Start)
 	<-	-possible(PositionName,NextName)
 		.broadcast(tell, updateMap(elapsed(system.time - Start), Direction, NextName));
 		.drop_all_intentions;
-		!navigate(Destination).
+		!missionTo(Destination).
 	
 +!updateMap(Direction,NextName)
 	:	startTime(Start)

@@ -10,7 +10,18 @@ import java.util.*;
 
 public class MapSearchFunctions {
 
+	private static final String path = "D:\\Local Documents\\Github\\jasonMobileAgent\\map.asl";
+	private static GridMap myMap;
+	
+	public static GridMap getMapInstance() {
+		if (myMap == null) {
+			myMap = GridMap.getInstance(path);
+		}
+		return myMap;
+	}
+	
     public static String getNavigationPath(String action) {
+		getMapInstance();
         int bracketOpen = action.indexOf("(");
         int bracketClose = action.indexOf(")");
         int comma = action.indexOf(",");
@@ -19,8 +30,19 @@ public class MapSearchFunctions {
         return "path(" + getNavigationPath(start, finish) + ")";
     }
 	
+	public static void setObstacle(String action) {
+		getMapInstance();
+		int bracketOpen = action.indexOf("(");
+        int bracketClose = action.indexOf(")");
+        int comma = action.indexOf(",");
+        String current = action.substring(bracketOpen + 1, comma );
+        String blocked = action.substring(comma + 1, bracketClose);
+		myMap.setObstacle(current,blocked);
+        return;
+	}
+	
     public static String getNavigationPath(String start, String finish) {
-        String path = "D:\\Local Documents\\ROS_Workspaces\\RoombaWorkspaces\\src\\jason_mobile_agent_ros\\asl\\map.asl";
+        getMapInstance();
         Problem<NavigationState, MapAction> problem = MapSearchFunctions.createProblem(start,finish,path);
         SearchForActions<NavigationState, MapAction> aStarSearch = new AStarSearch<>(new GraphSearch<>(), new HeuristicCalculator());
         Optional<List<MapAction>> actions = aStarSearch.findActions(problem);
@@ -29,7 +51,7 @@ public class MapSearchFunctions {
     }
 
     public static Problem<NavigationState, MapAction> createProblem(String start, String finish, String path) {
-        GridMap myMap = new GridMap(path);
+        getMapInstance();
         NavigationState startState = new NavigationState(myMap,start,finish);
         return new GeneralProblem(startState, MapSearchFunctions::getPossibleActions, MapSearchFunctions::getResultState,
                 MapSearchFunctions::testGoal, MapSearchFunctions::getActionCost);

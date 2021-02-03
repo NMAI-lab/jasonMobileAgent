@@ -21,7 +21,7 @@
 * | [0,2] | [1,2] | [2,2] | [3,2] |
 * |-------------------------------|
 * |   a   |   b   |   c   |   d   |
-* |       |       |   X   |       |
+* |   C   |       |   X   |       |
 * | [0,3] | [1,3] | [2,3] | [3,3] |
 * |-------------------------------|
 */
@@ -42,6 +42,9 @@ locationName(m,[0,0]).
 locationName(n,[1,0]).
 locationName(o,[2,0]).
 locationName(p,[3,0]).
+
+// Location of the charger
+chargerLocation(a).
  
 // Possible map transitions.
 // possible(StartingPosition, PossibleNewPosition)
@@ -80,6 +83,6 @@ possible(o,k).
 
 
 // Mess with the map, tell that C is a possible place to go
-//possible(b,c).
-//possible(c,d).
+possible(b,c).
+possible(c,d).
 
