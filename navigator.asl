@@ -18,7 +18,8 @@
 
 +!missionTo(Destination)
 	<-	+missionTo(Destination)
-		!navigate(Destination).
+		!navigate(Destination);
+		.stopMAS.
 
 // Case where we are already at the destination
 +!navigate(Destination)

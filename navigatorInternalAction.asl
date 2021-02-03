@@ -1,6 +1,6 @@
 // Demo program of Jason based navigation using A*
 
-!navigate(d).
+!missionTo(d).
 
 /*
 // Benchmark version
@@ -18,6 +18,12 @@
 
 +!navigate(_) <- .print("Done").
 */
+
+{ include("batteryManager.asl") }
+
++!missionTo(Destination)
+	<-	+missionTo(Destination)
+		!navigate(Destination).
 
 // Case where we are already at the destination
 +!navigate(Destination)
