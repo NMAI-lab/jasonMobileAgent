@@ -20,8 +20,8 @@ public class NavigatorGridWorld extends Environment {
 	public static final Term moveDown = Literal.parseLiteral("move(down)");
 	public static final Term moveLeft = Literal.parseLiteral("move(left)");
 	public static final Term moveRight = Literal.parseLiteral("move(right)");
-	public static final Term chargeTrue = Literal.parseLiteral("charging(true)");
-	public static final Term chargeFalse = Literal.parseLiteral("charge(false)");
+	public static final Term dock = Literal.parseLiteral("station(dock)");
+	public static final Term undock = Literal.parseLiteral("station(undock)");
 	
 	static Logger logger;
 	private String path;
@@ -56,10 +56,10 @@ public class NavigatorGridWorld extends Environment {
 			} else if (action.equals(moveRight)) {
 				model.move("right");
 				acted = true;
-			} else if (action.equals(chargeTrue)) {
+			} else if (action.equals(dock)) {
 				model.connectCharger();
 				acted = true;
-			} else if (action.equals(chargeFalse)) {
+			} else if (action.equals(undock)) {
 				model.disconnectCharger();
 				acted = true;
 			} 
@@ -89,8 +89,9 @@ public class NavigatorGridWorld extends Environment {
     void updatePercepts() {
         clearPercepts();
 		List<String> perceptionStrings = model.perceive();
-		System.out.println("!!!!!! PERCEIVE !!!!!");
+		System.out.println("\n\n\n!!!!!! PERCEIVE !!!!!\n");
 		System.out.println(perceptionStrings.toString());
+		System.out.println("\n\n\n");
 		Iterator<String> perceptionIterator = perceptionStrings.iterator();
         while (perceptionIterator.hasNext()) {
 			Literal perceptLiteral = Literal.parseLiteral(perceptionIterator.next());

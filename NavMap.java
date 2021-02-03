@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 class NavMap extends GridWorldModel {
 
 	private int batteryState;
-	private final int batteryMax = 10;
+	private final int batteryMax = 20;
 	private boolean charging;
 	
 	private Location chargerLocation;
@@ -142,10 +142,7 @@ class NavMap extends GridWorldModel {
 	
 	private void updateBattery() {
 		if (charging) {
-			batteryState += 1;
-			if (batteryState > batteryMax) {
-				batteryState = batteryMax;
-			}
+			batteryState = batteryMax;
 		} else {
 			batteryState -= 1;
 		}
