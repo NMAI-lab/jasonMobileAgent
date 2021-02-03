@@ -13,11 +13,24 @@ import java.util.logging.Logger;
 
 class NavMap extends GridWorldModel {
 
+	private int batteryState;
+	private final int batteryMax = 10;
+	private boolean charging;
+	
+	private Location chargerLocation;
+	
 	public NavMap() {
 		super(4, 4, 1); // 4 x 4 grid, 1 agent
 		
+		// Setup the battery
+		batteryState = 5;
+		charging = false;
+		
 		// Add the walls
 		this.addObstacles();
+		
+		// Set the chargerLocation
+		chargerLocation = new Location(0, 3);
 		
 		// Place the agent (ID is 0) on the map at location [0,0]
 		setAgPos(0, 0, 3);
@@ -38,7 +51,7 @@ class NavMap extends GridWorldModel {
 	* | [0,2] | [1,2] | [2,2] | [3,2] |
 	* |-------------------------------|
 	* |   a   |   b   |   c   |   d   |
-	* |       |       |   X   |       |
+	* |   C   |       |   X   |       |
 	* | [0,3] | [1,3] | [2,3] | [3,3] |
 	* |-------------------------------|
 	*/	
@@ -50,9 +63,11 @@ class NavMap extends GridWorldModel {
 	}
 	
 	// generatePerceptions
-	List<String> perceive() {
+	public List<String> perceive() {
 		Location agentPosition = getAgPos(0);
 	
+		updateBattery();
+		
 		List<String> perception = new ArrayList<String>();
 		perception.add("position(" + agentPosition.toString() + ")");
 
@@ -62,10 +77,13 @@ class NavMap extends GridWorldModel {
 		// Add perception of the map
 		perception.addAll(perceiveMap());
 		
+		// Add perceptions of the battery
+		perception.addAll(perceiveBattery());
+		
 		return perception;
 	}
 	
-	List<String> perceiveObstacles() {
+	private List<String> perceiveObstacles() {
 		Location agentPosition = getAgPos(0);
 		
 		// Check accessible locations
@@ -90,7 +108,7 @@ class NavMap extends GridWorldModel {
 		return obstaclePerception;
 	}
 	
-	List<String> perceiveMap() {
+	private List<String> perceiveMap() {
 		Location agentPosition = getAgPos(0);
 		
 		// Check accessible locations
@@ -114,21 +132,54 @@ class NavMap extends GridWorldModel {
 		}
 		return mapPerception;
 	}
-		
+	
+	private List<String> perceiveBattery() {
+		List<String> batteryPerception = new ArrayList<String>();
+		batteryPerception.add(new String("battery(" + Integer.toString(batteryState) + ")"));
+		batteryPerception.add(new String("charging(" + Boolean.toString(charging) + ")"));
+		return batteryPerception;
+	}
+	
+	private void updateBattery() {
+		if (charging) {
+			batteryState += 1;
+			if (batteryState > batteryMax) {
+				batteryState = batteryMax;
+			}
+		} else {
+			batteryState -= 1;
+		}
+	}
+	
+	public void connectCharger() {
+		if (chargerLocation.equals(getAgPos(0))) {
+			charging = true;
+		} else {
+			charging = false;
+		}
+	}
+	
+	public void disconnectCharger() {
+		charging = false;
+	}
 		
 	// perform actions
-	boolean move(String direction) {
+	public boolean move(String direction) {
 		Location agentPosition = getAgPos(0);
 		Location newLocation;
 	
-		if (direction.equals("up")) {
-			newLocation = new Location(agentPosition.x, agentPosition.y - 1);
-		} else if (direction.equals("down")) {
-			newLocation = new Location(agentPosition.x, agentPosition.y + 1);
-		} else if (direction.equals("left")) {
-			newLocation = new Location(agentPosition.x - 1, agentPosition.y);
-		} else if (direction.equals("right")) {
-			newLocation = new Location(agentPosition.x + 1, agentPosition.y);
+		if (!charging) {
+			if (direction.equals("up")) {
+				newLocation = new Location(agentPosition.x, agentPosition.y - 1);
+			} else if (direction.equals("down")) {
+				newLocation = new Location(agentPosition.x, agentPosition.y + 1);
+			} else if (direction.equals("left")) {
+				newLocation = new Location(agentPosition.x - 1, agentPosition.y);
+			} else if (direction.equals("right")) {
+				newLocation = new Location(agentPosition.x + 1, agentPosition.y);
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
