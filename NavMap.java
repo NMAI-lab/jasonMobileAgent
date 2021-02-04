@@ -17,7 +17,8 @@ class NavMap extends GridWorldModel {
 	private final int batteryMax = 20;
 	private boolean charging;
 	
-	private Location chargerLocation;
+	private final int pedestrian = 16;
+	private final int charger = 8;
 	
 	public NavMap() {
 		super(4, 4, 1); // 4 x 4 grid, 1 agent
@@ -30,7 +31,7 @@ class NavMap extends GridWorldModel {
 		this.addObstacles();
 		
 		// Set the chargerLocation
-		chargerLocation = new Location(0, 3);
+		add(charger, 0, 3);
 		
 		// Place the agent (ID is 0) on the map at location [0,0]
 		setAgPos(0, 0, 3);
@@ -39,7 +40,7 @@ class NavMap extends GridWorldModel {
 		
    /* |-------------------------------|
 	* |   m   |   n   |   o   |   p   |
-	* |       |       |       |   X   |
+	* |   P   |       |       |   X   |
 	* | [0,0] | [1,0] | [2,0] | [3,0] |
 	* |-------------------------------|
 	* |   i   |   j   |   k   |   l   |
@@ -47,7 +48,7 @@ class NavMap extends GridWorldModel {
 	* | [0,1] | [1,1] | [2,1] | [3,1] |
 	* |-------------------------------|
 	* |   e   |   f   |   g   |   h   |
-	* |       |   X   |       |       |
+	* |       |   X   |       |   P   |
 	* | [0,2] | [1,2] | [2,2] | [3,2] |
 	* |-------------------------------|
 	* |   a   |   b   |   c   |   d   |
@@ -60,6 +61,9 @@ class NavMap extends GridWorldModel {
 		add(OBSTACLE, 1, 2);
 		add(OBSTACLE, 1, 1);
 		add(OBSTACLE, 3, 0);
+
+		add(pedestrian, 0, 0);
+		add(pedestrian, 3, 2);
 	}
 	
 	// generatePerceptions
@@ -149,7 +153,7 @@ class NavMap extends GridWorldModel {
 	}
 	
 	public void connectCharger() {
-		if (chargerLocation.equals(getAgPos(0))) {
+		if (hasObject(charger, getAgPos(0))) {
 			charging = true;
 		} else {
 			charging = false;
