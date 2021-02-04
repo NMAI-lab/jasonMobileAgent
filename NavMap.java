@@ -84,6 +84,12 @@ class NavMap extends GridWorldModel {
 		// Add perceptions of the battery
 		perception.addAll(perceiveBattery());
 		
+		// Perceive the charging stations
+		
+		
+		// Perceive the pedestrians
+		perception.addAll(perceivePedestrians());
+		
 		return perception;
 	}
 	
@@ -135,6 +141,32 @@ class NavMap extends GridWorldModel {
 			mapPerception.add("map(right)");
 		}
 		return mapPerception;
+	}
+	
+	
+		private List<String> perceivePedestrians() {
+		Location agentPosition = getAgPos(0);
+		
+		// Check accessible locations
+		boolean pedestrianUp = hasObject(pedestrian, agentPosition.x, agentPosition.y - 1);
+		boolean pedestrianDown = hasObject(pedestrian, agentPosition.x, agentPosition.y + 1);
+		boolean pedestrianLeft = hasObject(pedestrian, agentPosition.x - 1, agentPosition.y);
+		boolean pedestrianRight = hasObject(pedestrian, agentPosition.x + 1, agentPosition.y);
+		
+		List<String> pedestrianPerception = new ArrayList<String>();
+		if (pedestrianUp) {
+			pedestrianPerception.add("pedestrian(up)");
+		}
+		if (pedestrianDown) {
+			pedestrianPerception.add("pedestrian(down)");
+		}
+		if (pedestrianLeft) {
+			pedestrianPerception.add("pedestrian(left)");
+		}
+		if (pedestrianRight) {
+			pedestrianPerception.add("pedestrian(right)");
+		}
+		return pedestrianPerception;
 	}
 	
 	private List<String> perceiveBattery() {
@@ -192,5 +224,28 @@ class NavMap extends GridWorldModel {
 		
 		// If we made it here, it didn't work
 		return false;
-	}		
+	}
+	
+	List<Location> getAdgacentLocations() {
+		Location agentPosition = getAgPos(0);
+		List<Location> locations = new ArrayList<>();
+		locations.add(new Location(agentPosition.x, agentPosition.y - 1));
+		locations.add(new Location(agentPosition.x, agentPosition.y + 1));
+		locations.add(new Location(agentPosition.x - 1, agentPosition.y));
+		locations.add(new Location(agentPosition.x + 1, agentPosition.y));
+		return locations;
+	}
+	
+	public boolean honkHorn() {
+		List<Location> affectedLocations = getAdgacentLocations();
+		for (Location current : affectedLocations) {
+            if (hasObject(pedestrian, current)) {
+				remove(pedestrian, current);
+			}
+        }	
+		
+		System.out.println("HORN!!!!!!HORN!!!!!!HORN!!!!!!HORN!!!!!!HORN!!!!!!");
+		
+		return true;
+	}
 }

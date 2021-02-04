@@ -22,6 +22,7 @@ public class NavigatorGridWorld extends Environment {
 	public static final Term moveRight = Literal.parseLiteral("move(right)");
 	public static final Term dock = Literal.parseLiteral("station(dock)");
 	public static final Term undock = Literal.parseLiteral("station(undock)");
+	public static final Term honkHorn = Literal.parseLiteral("honk(horn)");
 	
 	static Logger logger;
 	private String path;
@@ -62,7 +63,10 @@ public class NavigatorGridWorld extends Environment {
 			} else if (action.equals(undock)) {
 				model.disconnectCharger();
 				acted = true;
-			} 
+			} else if (action.equals(honkHorn)) {
+				model.honkHorn();
+				acted = true;					
+			}
 
 			String actionString = action.toString();
 			if (actionString.contains("getPath")) {

@@ -19,6 +19,7 @@
 +!navigate(_) <- .print("Done").
 */
 
+{ include("obstacleHandler.asl")}
 { include("batteryManager.asl") }
 
 +!missionTo(Destination)

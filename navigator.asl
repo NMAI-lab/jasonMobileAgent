@@ -43,7 +43,6 @@
 		?a_star(Current,Destination,Solution,Cost);
 		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
 		for (.member( op(Direction,NextPosition), Solution)) {
-			+waypoint(NextPosition);
 			!waypoint(Direction,NextPosition);
 		}
 		!navigate(Destination).
