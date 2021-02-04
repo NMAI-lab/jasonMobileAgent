@@ -5,8 +5,8 @@ MAS jasonMobileAgent {
     environment: NavigatorGridWorld
 
     agents:
-		//navigator agentArchClass TestAgentArch;
-		navigatorEnvAssist agentArchClass TestAgentArch;
+		navigator agentArchClass TestAgentArch;
+		//navigatorEnvAssist agentArchClass TestAgentArch;
 		//navigatorInternalAction agentArchClass TestAgentArch;
 }
 
