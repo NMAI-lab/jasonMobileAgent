@@ -1,10 +1,12 @@
 import jason.architecture.AgArch;
+import jason.architecture.MindInspectorAgArch;
 import jason.asSemantics.*;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Structure;
 import java.util.logging.Logger;
 
-public class TestAgentArch extends AgArch {
+//public class TestAgentArch extends AgArch {
+public class TestAgentArch extends MindInspectorAgArch {
 
 	private static Logger logger;
 	private long reasoningStart;
@@ -12,12 +14,13 @@ public class TestAgentArch extends AgArch {
 	private int cycleNumber;
 	
 	@Override
-    public void init() throws Exception {
+    public void init() {// throws Exception {
         super.init();
 		this.logger = Logger.getLogger("AgentArch");
 		this.reasoningStart = 0;
 		this.reasoningStop = 0;
 		this.cycleNumber = 0;
+		super.setupMindInspector("file(cycle,html)");
 	}
 	
 

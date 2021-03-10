@@ -1,7 +1,7 @@
 // Demo program of Jason based navigation using A*
 
-//!missionTo(d).
-!start.
+!missionTo(d).
+//!start.
 
 /*
 +!navigate
