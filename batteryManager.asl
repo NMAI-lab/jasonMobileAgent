@@ -14,9 +14,9 @@ batteryMax(20).
 		& missionTo(Destination)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
-		!chargeBattery;
+		!chargeBattery[priority(2)];
 		.broadcast(tell, battery(chargingFinished));
-		!missionTo(Destination).
+		!missionTo(Destination)[priority(3)].
 
 // No mailMission on the go, just need to charge the battery if I'm not already
 // dealing with it.
@@ -25,7 +25,7 @@ batteryMax(20).
 		& lowBattery(State)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
-		!chargeBattery;
+		!chargeBattery[priority(2)];
 		.broadcast(tell, battery(chargingFinished)).
 	
 /**
@@ -39,11 +39,11 @@ batteryMax(20).
 		& charging(false)
 		& chargerLocation(ChargeStation)
 	<-	.broadcast(tell, chargeBattery(chargingNeeded));
-		!navigate(ChargeStation);
+		!navigate(ChargeStation)[priority(3)];
 		.broadcast(tell, chargeBattery(atDock));
 		station(dock);
 		.broadcast(tell, chargeBattery(docked));
-		!chargeBattery.
+		!chargeBattery[priority(2)].
 		
 // Battery is full, undock the robot
 +!chargeBattery
@@ -55,7 +55,7 @@ batteryMax(20).
 		
 +!chargeBattery 
 	<- 	.broadcast(tell, chargeBattery(waiting));
-		!chargeBattery.
+		!chargeBattery[priority(2)].
 
 lowBattery(State)
 	:-	battery(State)

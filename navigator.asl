@@ -1,7 +1,7 @@
 // Demo program of Jason based navigation using A*
 
-!missionTo(d).
-//!start.
+!missionTo(d)[priority(3)].
+//!start[priority(3)].
 
 /*
 +!navigate
@@ -20,12 +20,12 @@
 
 +!start
 	<-	.wait(10000);
-		!missionTo(d).
+		!missionTo(d)[priority(3)].
 
 
 +!missionTo(Destination)
 	<-	+missionTo(Destination)
-		!navigate(Destination).
+		!navigate(Destination)[priority(3)].
 
 
 // Case where we are already at the destination
@@ -49,10 +49,14 @@
 		?a_star(Current,Destination,Solution,Cost);
 		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
 		for (.member( op(Direction,NextPosition), Solution)) {
-			!waypoint(Direction,NextPosition);
+			!waypoint(Direction,NextPosition)[priority(3)];
 		}
-		!navigate(Destination).
-	
+		!navigate(Destination)[priority(3)].
+
+// Show that a default plan (no context) is lowest priority
++!waypoint(_,_)
+	<-	.broadcast(tell, waypoint(never,never,never)).
+		
 // Move through the map, if possible.
 +!waypoint(Direction,_)
 	:	isDirection(Direction)
@@ -69,7 +73,7 @@
 		& obstacle(Direction)
 		& startTime(Start)
 	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), updateMap(Direction,Next)));
-		!updateMap(Direction, Next).
+		!updateMap(Direction, Next)[priority(4)].
 
 // Deal with case where Direction is not a valid way to go.
 +!waypoint(_,_)
@@ -85,12 +89,12 @@
 	<-	-possible(PositionName,NextName)
 		.broadcast(tell, updateMap(elapsed(system.time - Start), Direction, NextName));
 		.drop_all_intentions;
-		!missionTo(Destination).
+		!missionTo(Destination)[priority(3)].
 	
 +!updateMap(Direction,NextName)
 	:	startTime(Start)
 	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default, Direction,NextName));
-		!updateMap(Direction,NextName).
+		!updateMap(Direction,NextName)[priority(4)].
 		
 
 // Check that Direction is infact a direction
@@ -119,3 +123,4 @@ h(Current,Goal,H) :- H = math.sqrt( ((X2-X1) * (X2-X1)) + ((Y2-Y1) * (Y2-Y1)) ) 
 						 nameMatch(Current,[X1,Y1],Goal,[X2,Y2]).
 
 { include("a_star.asl") }
+
