@@ -48,13 +48,17 @@
 		+destination(Destination);
 		?a_star(Current,Destination,Solution,Cost);
 		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
-		for (.member( op(Direction,NextPosition), Solution)) {
-			!waypoint(Direction,NextPosition)[priority(3)];
+		for (.member( op(_,NextPosition), Solution)) {
+			!waypoint(NextPosition)[priority(3)];
 		}
 		!navigate(Destination)[priority(3)].
 
+{ include("movement.asl") }
+
+
+/*
 // Show that a default plan (no context) is lowest priority
-+!waypoint(_,_)
++!waypoint(_)
 	<-	.broadcast(tell, waypoint(never,never,never)).
 		
 // Move through the map, if possible.
@@ -102,7 +106,7 @@ isDirection(Direction) :- (Direction = up) |
 						  (Direction = down) |
 						  (Direction = left) |
 						  (Direction = right).
-		
+*/		
 		
 /* The following two rules are domain dependent and have to be redefined accordingly */
 
