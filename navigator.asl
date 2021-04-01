@@ -1,7 +1,7 @@
 // Demo program of Jason based navigation using A*
 
-!missionTo(d)[priority(3)].
-//!start[priority(3)].
+//!missionTo(d)[priority(3)].
+!start[priority(3)].
 
 /*
 +!navigate

@@ -9,6 +9,7 @@
 		& not obstacle(Direction)
 		& startTime(Start)
 	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), move(Destination,NextPosition)));
+		.wait(1000);
 		move(Direction).
 
 // Deal with case where Direction is not a valid way to go.

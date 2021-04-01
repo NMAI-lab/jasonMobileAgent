@@ -1,6 +1,7 @@
 
 +pedestrian(_)
 	<-	.broadcast(tell, pedestrian(honk(horn)));
+		.wait(1000);
 		honk(horn).
 
 +obstacle(Direction)

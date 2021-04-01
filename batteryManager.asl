@@ -12,6 +12,7 @@ batteryMax(20).
 	:	charging(false)
 		& lowBattery(State)
 		& missionTo(Destination)
+		& (not managingBattery)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
 		!chargeBattery[priority(2)];
@@ -23,6 +24,7 @@ batteryMax(20).
 +battery(State)
 	:	charging(false)
 		& lowBattery(State)
+		& (not managingBattery)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
 		!chargeBattery[priority(2)];
@@ -39,6 +41,7 @@ batteryMax(20).
 		& charging(false)
 		& chargerLocation(ChargeStation)
 	<-	.broadcast(tell, chargeBattery(chargingNeeded));
+		+managingBattery;
 		!navigate(ChargeStation)[priority(3)];
 		.broadcast(tell, chargeBattery(atDock));
 		station(dock);
@@ -51,6 +54,7 @@ batteryMax(20).
 		& charging(true)
 	<-	.broadcast(tell, chargeBattery(charged));
 		station(undock);
+		-managingBattery;
 		.broadcast(tell, chargeBattery(unDocked)).
 		
 +!chargeBattery 
