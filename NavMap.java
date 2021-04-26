@@ -240,7 +240,7 @@ class NavMap extends GridWorldModel {
 		List<Location> affectedLocations = getAdgacentLocations();
 		for (Location current : affectedLocations) {
             if (hasObject(pedestrian, current)) {
-				remove(pedestrian, current);
+				//remove(pedestrian, current);
 			}
         }	
 		

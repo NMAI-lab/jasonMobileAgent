@@ -7,8 +7,8 @@ MAS jasonMobileAgent {
     agents:
 		navigator
 			//obstacleTest;
-			agentClass AgentBrain
-			agentArchClass TestAgentArch;
+			agentClass AgentBrain;
+			//agentArchClass TestAgentArch;
 		//navigatorEnvAssist agentArchClass TestAgentArch;
 		//navigatorInternalAction agentArchClass TestAgentArch;
 }

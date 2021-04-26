@@ -19,7 +19,7 @@
 { include("batteryManager.asl") }
 
 +!start
-	<-	.wait(10000);
+	<-	//.wait(10000);
 		!missionTo(d)[priority(3)].
 
 
