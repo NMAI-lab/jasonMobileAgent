@@ -58,7 +58,7 @@ public class AgentBrain extends Agent {
      * Ex: [priotiy(1)]
      * Highest priority is smallest integer greater than 0
      * Otherwise, first intention in the queue is chosen.
-     */
+     
     @Override
     public Intention selectIntention(Queue<Intention> intentions) {
         //System.out.println("I'm in the intention selection function!");
@@ -75,6 +75,7 @@ public class AgentBrain extends Agent {
 		intentions.remove(selected);
 		return selected;
     }
+	*/
 
     /**
      * Return the highest priority event from the events list.
@@ -159,7 +160,7 @@ public class AgentBrain extends Agent {
 	
     /**
      * Return the highest priority intention from the intentions list.
-     */
+     
     protected Intention getHighestPriorityIntention(Queue<Intention> intentions) {
         int priority = -1;    // The "champion" -> the best priority we've found so far (-1 is init)
         Intention priorityIntention = null;    // The event that has the highest priority so far
@@ -195,6 +196,7 @@ public class AgentBrain extends Agent {
         //intentions.remove(priorityIntention);
         return priorityIntention;
     }
+	*/
 
     /**
      * Find the priority annotation and return the value.
