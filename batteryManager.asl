@@ -30,7 +30,7 @@ health(battery).
 		& (not managingBattery)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
-		!chargeBattery[priority(2)];
+		!chargeBattery;
 		.broadcast(tell, battery(chargingFinished)).
 	
 /**
@@ -48,11 +48,11 @@ health(chargeBattery).
 		& chargerLocation(ChargeStation)
 	<-	.broadcast(tell, chargeBattery(chargingNeeded));
 		+managingBattery;
-		!navigate(ChargeStation)[priority(3)];
+		!navigate(ChargeStation);
 		.broadcast(tell, chargeBattery(atDock));
 		station(dock);
 		.broadcast(tell, chargeBattery(docked));
-		!chargeBattery[priority(2)].
+		!chargeBattery.
 		
 // Battery is full, undock the robot
 +!chargeBattery
@@ -65,7 +65,7 @@ health(chargeBattery).
 		
 +!chargeBattery 
 	<- 	.broadcast(tell, chargeBattery(waiting));
-		!chargeBattery[priority(2)].
+		!chargeBattery.
 
 lowBattery(State)
 	:-	battery(State)

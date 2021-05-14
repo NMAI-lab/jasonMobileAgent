@@ -38,9 +38,9 @@ navigation(navigate).
 		?a_star(Current,Destination,Solution,Cost);
 		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
 		for (.member( op(_,NextPosition), Solution)) {
-			!waypoint(NextPosition)[priority(3)];
+			!waypoint(NextPosition);
 		}
-		!navigate(Destination)[priority(3)].
+		!navigate(Destination).
 
 { include("movement.asl") }
 		
