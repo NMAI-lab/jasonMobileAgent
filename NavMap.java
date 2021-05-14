@@ -155,16 +155,16 @@ class NavMap extends GridWorldModel {
 		
 		List<String> pedestrianPerception = new ArrayList<String>();
 		if (pedestrianUp) {
-			pedestrianPerception.add("pedestrian(up)");
+			pedestrianPerception.add("pedestrian(up)[priority(1)]");
 		}
 		if (pedestrianDown) {
-			pedestrianPerception.add("pedestrian(down)");
+			pedestrianPerception.add("pedestrian(down)[priority(1)]");
 		}
 		if (pedestrianLeft) {
-			pedestrianPerception.add("pedestrian(left)");
+			pedestrianPerception.add("pedestrian(left)[priority(1)]");
 		}
 		if (pedestrianRight) {
-			pedestrianPerception.add("pedestrian(right)");
+			pedestrianPerception.add("pedestrian(right)[priority(1)]");
 		}
 		return pedestrianPerception;
 	}

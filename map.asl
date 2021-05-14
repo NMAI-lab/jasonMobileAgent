@@ -86,3 +86,4 @@ possible(o,k).
 possible(b,c).
 possible(c,d).
 
+

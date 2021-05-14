@@ -1,32 +1,20 @@
 // Demo program of Jason based navigation using A*
 
-!missionTo(d).
-//!start.
-
-/*
-+!navigate
-	<-	InitRule = system.time;		// Get initial time stamp, for benchmarking performance
-		
-		// a_star(InitialState, Goal, Solution, Cost) 
-		?a_star(a,d,Solution,Cost);
-		
-		// Print the results
-		.print("solution A* =", Solution, " with cost ",Cost," in ", (system.time - InitRule), " ms.");
-		.
-*/
+!mission(navigate,[d]).
 
 { include("obstacleHandler.asl")}
 { include("batteryManager.asl") }
 
-+!start
-	<-	.wait(10000);
-		!missionTo(d).
+mission(mission).
++!mission(Goal,Parameters)
+	:	Goal = navigate
+	    & Parameters = [Destination]
+	<-	+mission(Goal,Parameters);
+		!navigate(Destination);
+		-mission(Goal,Parameters).
+		
 
-
-+!missionTo(Destination)
-	<-	+missionTo(Destination)
-		!navigate(Destination).
-
+navigation(navigate).
 
 // Case where we are already at the destination
 +!navigate(Destination)
@@ -34,7 +22,8 @@
 		& locationName(Destination,[X,Y])
 		& startTime(Start)
 	<-	.broadcast(tell, navigate(elapsed(system.time - Start), arrived(Destination)));
-		-destinaton(Destination).
+		.
+		//-destinaton(Destination).
 		//-startTime(_);
 		//.stopMAS.
 
@@ -45,61 +34,20 @@
 		+startTime(Start);				// Get initial time stamp, for benchmarking performance
 		.broadcast(tell, navigate(elapsed(system.time - Start), gettingRoute(Destination)));
 		.broadcast(tell, navigate(elapsed(system.time - Start), current(Current)));
-		+destination(Destination);
+		//+destination(Destination);
 		?a_star(Current,Destination,Solution,Cost);
 		.broadcast(tell, navigate(elapsed(system.time - Start), route(Solution)));
-		for (.member( op(Direction,NextPosition), Solution)) {
-			!waypoint(Direction,NextPosition);
+		for (.member( op(_,NextPosition), Solution)) {
+			!waypoint(NextPosition);
 		}
 		!navigate(Destination).
-	
-// Move through the map, if possible.
-+!waypoint(Direction,_)
-	:	isDirection(Direction)
-		& map(Direction)
-		& not obstacle(Direction)
-		& startTime(Start)
-	<-	move(Direction);
-		.broadcast(tell, waypoint(elapsed(system.time - Start), move(Direction))).
-	
-// Move through the map, if possible.
-+!waypoint(Direction, Next)
-	:	isDirection(Direction)
-		& map(Direction)
-		& obstacle(Direction)
-		& startTime(Start)
-	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), updateMap(Direction,Next)));
-		!updateMap(Direction, Next).
 
-// Deal with case where Direction is not a valid way to go.
-+!waypoint(_,_)
-	:	startTime(Start)
-	<-	.broadcast(tell, waypoint(elapsed(system.time - Start), waypoint(default))).
-
-+!updateMap(Direction, NextName)
-	:	position(X,Y)
-		& locationName(PositionName, [X,Y])
-		& possible(PositionName,NextName)
-		& missionTo(Destination)
-		& startTime(Start)
-	<-	-possible(PositionName,NextName)
-		.broadcast(tell, updateMap(elapsed(system.time - Start), Direction, NextName));
-		.drop_all_intentions;
-		!missionTo(Destination).
-	
-+!updateMap(Direction,NextName)
-	:	startTime(Start)
-	<-	.broadcast(tell, updateMap(elapsed(system.time - Start), default, Direction,NextName));
-		!updateMap(Direction,NextName).
+{ include("movement.asl") }
 		
 
-// Check that Direction is infact a direction
-isDirection(Direction) :- (Direction = up) |
-						  (Direction = down) |
-						  (Direction = left) |
-						  (Direction = right).
-		
-		
+// Map of locations that the agent can visit.
+{ include("map.asl") }
+
 /* The following two rules are domain dependent and have to be redefined accordingly */
 
 // sucessor definition: suc(CurrentState,NewState,Cost,Operation)
@@ -111,11 +59,11 @@ suc(Current,Next,1,right) :- ([X2,Y2] = [X1+1,Y1]) & possible(Current,Next) & na
 nameMatch(Current,CurrentPosition,Next,NextPosition) :- locationName(Current,CurrentPosition) &
 														  locationName(Next,NextPosition).
 
-// Map of locations that the agent can visit.
-{ include("map.asl") }
+
 
 // heutistic definition: h(CurrentState,Goal,H)
 h(Current,Goal,H) :- H = math.sqrt( ((X2-X1) * (X2-X1)) + ((Y2-Y1) * (Y2-Y1)) ) &
 						 nameMatch(Current,[X1,Y1],Goal,[X2,Y2]).
 
 { include("a_star.asl") }
+
