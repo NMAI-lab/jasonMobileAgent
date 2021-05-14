@@ -1,4 +1,5 @@
 
+movement(waypoint).
 
 // Move through the map, if possible.
 +!waypoint(NextPosition)

@@ -5,6 +5,9 @@ batteryMax(20).
  * When the battery perception is below the minimum, we need to pickup the goal
  * of !chargeBattery, if we haven't already.
  */
+
+health(battery).
+ 
 // Check if I'm on a mission, if so, I'll need to launch the mission again
 // once the battery is charged.
 // Also need to confirm that I'm not already charging the battery. 
@@ -34,6 +37,9 @@ batteryMax(20).
  * !chargeBattery
  * The plan for getting the battery to battery(full) if needed.
  */
+ 
+health(chargeBattery).
+ 
  // I'm not docked. Go to the docking station and dock.
  // This is rerursiuve as we need to wait for the battery to charge.
  +!chargeBattery

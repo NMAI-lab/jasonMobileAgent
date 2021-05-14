@@ -1,16 +1,11 @@
 // Demo program of Jason based navigation using A*
 
-//!start.
+!mission(navigate,[d]).
 
 { include("obstacleHandler.asl")}
 { include("batteryManager.asl") }
 
-!mission(navigate,[d]).
-
-//+!start
-//	<-	//.wait(10000);
-//		!missionTo(d)[priority(3)].
-
+mission(mission).
 +!mission(Goal,Parameters)
 	:	Goal = navigate
 	    & Parameters = [Destination]
@@ -19,10 +14,7 @@
 		-mission(Goal,Parameters).
 		
 
-//+!missionTo(Destination)
-//	<-	+missionTo(Destination)
-//		!navigate(Destination)[priority(3)].
-
+navigation(navigate).
 
 // Case where we are already at the destination
 +!navigate(Destination)
