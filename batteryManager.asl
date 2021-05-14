@@ -11,15 +11,15 @@ batteryMax(20).
 +battery(State)
 	:	charging(false)
 		& lowBattery(State)
-		& missionTo(Destination)
+		& mission(Goal,Parameters)
 		& (not managingBattery)
 	<-	.drop_all_intentions;
 		.broadcast(tell, battery(chargingNeeded));
-		!chargeBattery[priority(2)];
+		!chargeBattery;
 		.broadcast(tell, battery(chargingFinished));
-		!missionTo(Destination)[priority(3)].
+		!mission(Goal,Parameters).
 
-// No mailMission on the go, just need to charge the battery if I'm not already
+// No mission on the go, just need to charge the battery if I'm not already
 // dealing with it.
 +battery(State)
 	:	charging(false)
