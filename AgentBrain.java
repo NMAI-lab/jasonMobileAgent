@@ -9,7 +9,20 @@ import java.util.regex.*;
 
 public class AgentBrain extends Agent {
 
-    protected List<String> eventPriorities = Arrays.asList("safety", "health", "map", "mission", "navigation", "movement");
+    protected List<String> eventPriorities;
+
+    public AgentBrain() {
+        super();
+        this.setEventPriorities();
+    }
+
+    /**
+     * Specify the event priorities for the event selection function.
+     * This can be overridden if a new priority setting is needed.
+     */
+    protected void setEventPriorities() {
+        this.eventPriorities = Arrays.asList("safety", "health", "map", "mission", "navigation", "movement");
+    }
 
     /**
      * Highest priority event has priority
